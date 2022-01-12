@@ -5,4 +5,4 @@ NAME=tamagotchi
 all: $(NAME)
 
 $(NAME):
-	gcc main.c -o $(NAME)
+	gcc `pkg-config --cflags gtk+-3.0` -o $(NAME) main.c `pkg-config --libs gtk+-3.0`
