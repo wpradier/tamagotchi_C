@@ -6,5 +6,6 @@
 # include <gtk/gtk.h>
 # include <mysql/mysql.h>
 
+void	db_connect();
 
 #endif

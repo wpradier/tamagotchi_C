@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+        mysql:
+                container_name: tamagotchi-db
+                image: mysql:8
+                environment:
+                        MYSQL_ROOT_PASSWORD: root
+                        MYSQL_DATABASE: tamagotchi_c
+                ports:
+                        - "12345:3306"
+                volumes:
+                        - mysql-data:/var/lib/mysql
+
+volumes:
+        mysql-data:
+                driver: local
