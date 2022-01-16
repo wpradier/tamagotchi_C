@@ -16,11 +16,10 @@ CONFIGS = `pkg-config --cflags gtk+-3.0`	\
 	  `mysql_config --libs`
 
 
-
 all: $(NAME)
 
 $(NAME):
-	$(CC) $(CFLAGS) $(SRCS) $(CONFIGS) -I $(INCLUDES) -o $(NAME)
+	$(CC) $(CFLAGS) $(SRCS) `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0` -I $(INCLUDES) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)
