@@ -24,11 +24,12 @@ int     main(int argc, char **argv) {
 	char *test = "test";
         label_test = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "label_test"));
 
-	//gchar *recep = gtk_label_get_text(GTK_LABEL(label_test));
-	//g_print("%s", recep);
-  
         /* Change test label */
 	gtk_label_set_text(GTK_LABEL(label_test), test);
+
+	/* Get test label */
+	const gchar *recep = gtk_label_get_text(GTK_LABEL(label_test)); 
+	g_print("%s", recep); 
 
 	/* init button test*/
 	button_test = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "buttonTest")); 
