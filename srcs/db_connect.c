@@ -18,5 +18,5 @@ void		db_connect()
 		fprintf(stderr, "Error: %s [%d]\n", mysql_error(conn), mysql_errno(conn));
 		exit(EXIT_FAILURE);
 	}
-	printf("CONNECTED");
+	printf("CONNECTED \n");
 }
