@@ -7,5 +7,6 @@
 # include <mysql/mysql.h>
 
 void	db_connect();
+void 	game_graphic(int, char**); 
 
 #endif

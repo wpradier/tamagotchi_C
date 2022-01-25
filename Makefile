@@ -6,6 +6,7 @@ INCLUDES = includes
 
 SRCS = srcs/main.c		\
        srcs/db_connect.c	\
+       srcs/game_graphic.c	\
 
 OBJS = $(SRCS:.c=.o)
 
