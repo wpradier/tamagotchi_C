@@ -1,6 +1,6 @@
 #include "tamagotchi.h"
 
-static void buttonClicked(); 
+static void buttonClicked();
 
 static void buttonClicked(){
         g_print("Bouton presser\n");
@@ -13,6 +13,7 @@ void game_graphic(int argc, char**argv)
 	GtkWidget *window;
 	GtkWidget *label_test;
 	GtkWidget *button_test;
+  GtkWidget *image_tamagotchi;
 
 	/* init gtk */
 	gtk_init(&argc, &argv);
@@ -24,10 +25,10 @@ void game_graphic(int argc, char**argv)
 	gtk_builder_connect_signals(gtkBuilder, NULL);
 
 	/* init label test */
-	char *test = "test";
 	label_test = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "label_test"));
 
 	/* Change test label */
+  char *test = "test";
 	gtk_label_set_text(GTK_LABEL(label_test), test);
 
 	/* Get test label */
@@ -37,6 +38,13 @@ void game_graphic(int argc, char**argv)
 	/* init button test*/
 	button_test = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "buttonTest"));
 	g_signal_connect(button_test, "clicked", G_CALLBACK(buttonClicked), (gpointer) NULL);
+
+  /* init tamagotchi image */
+	image_tamagotchi = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "tamagotchi_image"));
+  //gtk_image_set_from_image();
+  char *file = "image.jpg";
+  gtk_image_set_from_file(GTK_IMAGE(image_tamagotchi), file); 
+  //(GtkImage *image, const gchar *filename);
 
 	/* Print and event loop */
 	gtk_widget_show_all(window);
