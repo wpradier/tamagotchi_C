@@ -1,9 +1,15 @@
 #include "tamagotchi.h"
 
 static void buttonClicked();
+void updateFood();
 
 static void buttonClicked(){
-        g_print("Bouton presser\n");
+        g_print("Bouton pressé\n");
+}
+
+void updateFood(GtkWidget *widget, gpointer data){
+    if (widget) g_print("Modification progresse barre\n");
+    gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(data), 0.9);
 }
 
 void game_graphic(int *argc, char***argv)
@@ -15,6 +21,7 @@ void game_graphic(int *argc, char***argv)
 	GtkWidget *button_test;
   GtkWidget *image_tamagotchi;
   GtkWidget *food_barre;
+  GtkWidget *food_button;
 
 	/* init gtk */
 	gtk_init(argc, argv);
@@ -43,11 +50,15 @@ void game_graphic(int *argc, char***argv)
   /* init tamagotchi image */
 	image_tamagotchi = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "tamagotchi_image"));
   char *file = "image.jpg";
+  /* change link image */
   gtk_image_set_from_file(GTK_IMAGE(image_tamagotchi), file);
 
   /* init container food_barre */
 	food_barre = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "food_barre"));
-  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(food_barre), 0.5);
+
+  /*init button food */
+  food_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "button_food"));
+  g_signal_connect(food_button, "clicked", G_CALLBACK(updateFood), (gpointer) food_barre);
 
 	/* Print and event loop */
 	gtk_widget_show_all(window);
