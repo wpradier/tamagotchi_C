@@ -17,8 +17,8 @@ void game_graphic(int *argc, char***argv)
 	//init variable
 	GtkBuilder *gtkBuilder;
 	GtkWidget *window;
-	GtkWidget *label_test;
-	GtkWidget *button_test;
+	GtkWidget *name_label;
+	GtkWidget *market_button;
   GtkWidget *image_tamagotchi;
   GtkWidget *food_barre;
   GtkWidget *food_button;
@@ -32,20 +32,20 @@ void game_graphic(int *argc, char***argv)
 	window = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "main_window"));
 	gtk_builder_connect_signals(gtkBuilder, NULL);
 
-	/* init label test */
-	label_test = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "label_test"));
+	/* init label name */
+	name_label = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "name_label"));
 
-	/* Change test label */
-  char *test = "test";
-	gtk_label_set_text(GTK_LABEL(label_test), test);
+	/* Change name label */
+  char *test = "Nom créature";
+	gtk_label_set_text(GTK_LABEL(name_label), test);
 
-	/* Get test label */
-	const gchar *recep = gtk_label_get_text(GTK_LABEL(label_test));
+	/* Get name label */
+	const gchar *recep = gtk_label_get_text(GTK_LABEL(name_label));
 	g_print("%s", recep);
 
-	/* init button test*/
-	button_test = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "buttonTest"));
-	g_signal_connect(button_test, "clicked", G_CALLBACK(buttonClicked), (gpointer) NULL);
+	/* init button market*/
+	market_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "market_button"));
+	g_signal_connect(market_button, "clicked", G_CALLBACK(buttonClicked), (gpointer) NULL);
 
   /* init tamagotchi image */
 	image_tamagotchi = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "tamagotchi_image"));
