@@ -2,6 +2,7 @@
 
 static void buttonClicked();
 void updateFood();
+void gamePlay();
 
 static void buttonClicked(){
         g_print("Bouton pressé\n");
@@ -12,16 +13,48 @@ void updateFood(GtkWidget *widget, gpointer data){
     gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(data), 0.9);
 }
 
+void gamePlay(GtkWidget *widget, gpointer data){
+  if (widget) g_print("Jeu lancé\n");
+  gtk_widget_destroy(data);
+
+  GtkBuilder *gtkBuilder;
+	GtkWidget *window;
+
+	/* Create window gtk */
+	gtkBuilder = gtk_builder_new();
+	gtkBuilder = gtk_builder_new_from_file("test-glade.glade");
+	window = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "main_window"));
+	gtk_builder_connect_signals(gtkBuilder, NULL);
+
+  gtk_widget_show_all(window);
+}
+
+/*
+void editName(GtkWidget *widget, gchar data){
+    if (widget) g_print("Modification progresse barre\n");
+    recep_entry_text = gtk_entry_get_text(GTK_ENTRY(name_input));
+}*/
+
+void editName(GtkWidget *widget, gpointer data){
+    if (widget) g_print("Modification progresse barre\n");
+
+    const gchar *recep_entry_text = gtk_entry_get_text(GTK_ENTRY(data));
+    g_print("%s", recep_entry_text);
+}
+
 void game_graphic(int *argc, char***argv)
 {
 	//init variable
 	GtkBuilder *gtkBuilder;
 	GtkWidget *window;
-	GtkWidget *name_label;
 	GtkWidget *market_button;
   GtkWidget *image_tamagotchi;
-  GtkWidget *food_barre;
+  GtkWidget *food_bar;
   GtkWidget *food_button;
+  GtkWidget *edit_name_button;
+  GtkWidget *name_input;
+  GtkWidget *game_button;
+  //GtkWidget *name_label;
 
 	/* init gtk */
 	gtk_init(argc, argv);
@@ -31,17 +64,6 @@ void game_graphic(int *argc, char***argv)
 	gtkBuilder = gtk_builder_new_from_file("test-glade.glade");
 	window = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "main_window"));
 	gtk_builder_connect_signals(gtkBuilder, NULL);
-
-	/* init label name */
-	name_label = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "name_label"));
-
-	/* Change name label */
-  char *test = "Nom créature";
-	gtk_label_set_text(GTK_LABEL(name_label), test);
-
-	/* Get name label */
-	const gchar *recep = gtk_label_get_text(GTK_LABEL(name_label));
-	g_print("%s", recep);
 
 	/* init button market*/
 	market_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "market_button"));
@@ -53,13 +75,41 @@ void game_graphic(int *argc, char***argv)
   /* change link image */
   gtk_image_set_from_file(GTK_IMAGE(image_tamagotchi), file);
 
-  /* init container food_barre */
-	food_barre = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "food_barre"));
+  /* init container food_bar */
+	food_bar = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "food_bar"));
 
   /*init button food */
   food_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "button_food"));
-  g_signal_connect(food_button, "clicked", G_CALLBACK(updateFood), (gpointer) food_barre);
+  g_signal_connect(food_button, "clicked", G_CALLBACK(updateFood), (gpointer) food_bar);
+
+  /* init button game */
+  game_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "game_button"));
+  g_signal_connect(game_button, "clicked", G_CALLBACK(gamePlay), (gpointer) window);
+
+  /* init name input */
+  name_input = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "name_input"));
+
+  /* init edit name button */
+  edit_name_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "edit_name_button"));
+
+  //g_signal_connect(edit_name_button, "clicked", G_CALLBACK(editName), (gchar) recep_entry_text);
+  g_signal_connect(edit_name_button, "clicked", G_CALLBACK(editName), (gpointer) name_input);
+
+  // A LA PLACE DE recep_entry_text METTRE LE NOM STOCKE DANS LA BDD
+  /* init label name */
+  //name_label = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "name_label"));
+
+  /* Change name label */
+  //gtk_label_set_text(GTK_LABEL(name_label), recep_entry_text);
+
+  /* Get name label */
+  //const gchar *recep = gtk_label_get_text(GTK_LABEL(name_label));
+  //g_print("%s", recep);
+
 
 	/* Print and event loop */
 	gtk_widget_show_all(window);
+
+  /* hidden name_input */
+  //gtk_widget_hide(name_input);
 }
