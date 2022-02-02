@@ -11,6 +11,23 @@ static void buttonClicked(){
 void updateFood(GtkWidget *widget, gpointer data){
     if (widget) g_print("Modification progresse barre\n");
     gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(data), 0.9);
+
+    /* time */
+    /* read time */
+     time_t now = time (NULL);
+
+     /* convert in localtime */
+     struct tm tm_now = *localtime (&now);
+
+     /* create char JJ/MM/AAAA HH:MM:SS */
+     char s_now[sizeof "JJ/MM/AAAA HH:MM:SS"];
+
+     strftime (s_now, sizeof s_now, "%d/%m/%Y %H:%M:%S", &tm_now);
+
+     /* print result : */
+     g_print("'%s'\n", s_now);
+
+     // pour comparer deux dates : difftime()
 }
 
 void gamePlay(GtkWidget *widget, gpointer data){
@@ -22,8 +39,8 @@ void gamePlay(GtkWidget *widget, gpointer data){
 
 	/* Create window gtk */
 	gtkBuilder = gtk_builder_new();
-	gtkBuilder = gtk_builder_new_from_file("test-glade.glade");
-	window = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "main_window"));
+	gtkBuilder = gtk_builder_new_from_file("gameWindow.glade");
+	window = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "game_window"));
 	gtk_builder_connect_signals(gtkBuilder, NULL);
 
   gtk_widget_show_all(window);

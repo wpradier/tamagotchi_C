@@ -5,8 +5,9 @@
 # include <stdlib.h>
 # include <gtk/gtk.h>
 # include <mysql/mysql.h>
+# include <time.h>
 
 void	db_connect();
-void 	game_graphic(int*, char***); 
+void 	game_graphic(int*, char***);
 
 #endif
