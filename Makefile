@@ -4,9 +4,12 @@ CFLAGS=-Wall -Wextra -Werror
 
 INCLUDES = includes
 
-SRCS = srcs/main.c		\
-       srcs/db_connect.c	\
-       srcs/game_graphic.c	\
+SRCS = srcs/main.c				\
+       srcs/db_connect.c			\
+       srcs/game_graphic.c			\
+       srcs/tamagotchi/init_tamagotchi.c	\
+       srcs/tamagotchi/print_tamagotchi.c	\
+       srcs/tamagotchi/free_tamagotchi.c	\
 
 OBJS = $(SRCS:.c=.o)
 
@@ -19,7 +22,7 @@ CONFIGS = `pkg-config --cflags gtk+-3.0`	\
 all: $(NAME)
 
 $(NAME):
-	$(CC) $(CFLAGS) $(SRCS) `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0` -I $(INCLUDES) -o $(NAME)
+	$(CC) $(CFLAGS) $(SRCS) $(CONFIGS) -I $(INCLUDES) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)

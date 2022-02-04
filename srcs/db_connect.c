@@ -1,6 +1,6 @@
 #include "tamagotchi.h"
 
-void		db_connect() 
+MYSQL			*db_connect() 
 {
 	char		*host = "127.0.0.1";
 	char		*user = "root";
@@ -19,4 +19,6 @@ void		db_connect()
 		exit(EXIT_FAILURE);
 	}
 	printf("CONNECTED \n");
+
+	return conn;
 }
