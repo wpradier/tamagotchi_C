@@ -17,7 +17,7 @@ int main(int argc, char **argv){
 	}else{
 		printf("Vous êtes en version graphique\n");
 
-		game_graphic(&argc, &argv);
+		homePage(&argc, &argv);
          	gtk_main();
 
          	gchar *TEST = "TEST\n";

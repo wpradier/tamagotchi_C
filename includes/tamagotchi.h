@@ -8,6 +8,6 @@
 # include <time.h>
 
 void	db_connect();
-void 	game_graphic(int*, char***);
+void 	homePage(int*, char***);
 
 #endif
