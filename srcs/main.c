@@ -6,9 +6,7 @@ int main(int argc, char **argv){
 	do{
 		printf("Tapez 0 pour jouer en console ou 1 pour jouer en graphique : ");
 		scanf("%d", &choice);
-		fflush(stdin); 
 	}while(choice != 0 && choice != 1);
-
 
 	/* Connect at the database */
 	db_connect();
