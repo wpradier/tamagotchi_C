@@ -14,13 +14,13 @@ void			set_tamagotchi_fields(s_tamagotchi *tamagotchi, MYSQL_ROW row) {
 	tamagotchi->outfit = row[10];
 }
 
-s_tamagotchi		*init_tamagotchi(MYSQL *conn, int id_tamagotchi) {
+s_tamagotchi		*init_tamagotchi(MYSQL *conn, int tamagotchi_id) {
 	MYSQL_RES	*res;
 	MYSQL_ROW	row;
-	char		query[300];
+	char		query[QUERY_SIZE];
 	s_tamagotchi	*tamagotchi;
 
-	snprintf(query, 300, "SELECT TAMAGOTCHIS.name, color, birthdate, alive, last_fed, last_washed, last_played, last_worked, health_bar, last_health_update, OUTFITS.name as outfit FROM TAMAGOTCHIS LEFT JOIN OUTFITS ON TAMAGOTCHIS.id_outfit = OUTFITS.id WHERE TAMAGOTCHIS.id = %d", id_tamagotchi);
+	snprintf(query, QUERY_SIZE, "SELECT TAMAGOTCHIS.name, color, birthdate, alive, last_fed, last_washed, last_played, last_worked, health_bar, last_health_update, OUTFITS.name as outfit FROM TAMAGOTCHIS LEFT JOIN OUTFITS ON TAMAGOTCHIS.id_outfit = OUTFITS.id WHERE TAMAGOTCHIS.id = %d", tamagotchi_id);
 
 	mysql_query(conn, query);
 	res = mysql_store_result(conn);

@@ -7,9 +7,11 @@ INCLUDES = includes
 SRCS = srcs/main.c				\
        srcs/db_connect.c			\
        srcs/game_graphic.c			\
-       srcs/tamagotchi/init_tamagotchi.c	\
-       srcs/tamagotchi/print_tamagotchi.c	\
-       srcs/tamagotchi/free_tamagotchi.c	\
+       srcs/fetch_save.c			\
+       srcs/tamagotchi_funcs/init_tamagotchi.c	\
+       srcs/tamagotchi_funcs/print_tamagotchi.c	\
+       srcs/tamagotchi_funcs/free_tamagotchi.c	\
+       srcs/gamestate_funcs/init_gamestate.c	\
 
 OBJS = $(SRCS:.c=.o)
 
