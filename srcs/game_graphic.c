@@ -97,16 +97,7 @@ void gamePlay(GtkWidget *widget, gpointer data){
   if (widget) g_print("Jeu lancé\n");
   gtk_widget_destroy(data);
 
-  GtkBuilder *gtkBuilder;
-	GtkWidget *window;
-
-	/* Create window gtk */
-	gtkBuilder = gtk_builder_new();
-	gtkBuilder = gtk_builder_new_from_file("gameWindow.glade");
-	window = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "game_window"));
-	gtk_builder_connect_signals(gtkBuilder, NULL);
-
-  gtk_widget_show_all(window);
+  gamePlayGraphic();
 }
 
 /*
@@ -128,7 +119,7 @@ void gameGraphic()
 	GtkBuilder *gtkBuilder;
 	GtkWidget *window;
 	GtkWidget *market_button;
-  GtkWidget *image_tamagotchi;
+  //GtkWidget *image_tamagotchi;
   GtkWidget *food_bar;
   GtkWidget *food_button;
   GtkWidget *edit_name_button;
@@ -146,7 +137,7 @@ void gameGraphic()
 
 	/* Create window gtk */
 	gtkBuilder = gtk_builder_new();
-	gtkBuilder = gtk_builder_new_from_file("test-glade.glade");
+	gtkBuilder = gtk_builder_new_from_file("windows/principalWindow.glade");
 	window = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "main_window"));
 	gtk_builder_connect_signals(gtkBuilder, NULL);
 
@@ -155,10 +146,10 @@ void gameGraphic()
 	g_signal_connect(market_button, "clicked", G_CALLBACK(buttonClicked), (gpointer) NULL);
 
   /* init tamagotchi image */
-	image_tamagotchi = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "tamagotchi_image"));
-  char *file = "image.jpg";
-  /* change link image */
-  gtk_image_set_from_file(GTK_IMAGE(image_tamagotchi), file);
+	// image_tamagotchi = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "tamagotchi_image"));
+  // char *file = "image.jpg";
+  // /* change link image */
+  // gtk_image_set_from_file(GTK_IMAGE(image_tamagotchi), file);
 
   /* init container food_bar */
 	food_bar = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "food_bar"));
@@ -226,7 +217,7 @@ void homePage(int *argc, char***argv){
 
 	/* Create window gtk */
 	gtkBuilder = gtk_builder_new();
-	gtkBuilder = gtk_builder_new_from_file("./windows/homePage.glade");
+	gtkBuilder = gtk_builder_new_from_file("./windows/homeWindow.glade");
 	window = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "main_window"));
 	gtk_builder_connect_signals(gtkBuilder, NULL);
 

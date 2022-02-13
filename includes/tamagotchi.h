@@ -9,5 +9,6 @@
 
 void	db_connect();
 void 	homePage(int*, char***);
+void  gamePlayGraphic(); 
 
 #endif

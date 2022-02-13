@@ -22,10 +22,11 @@
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="pixbuf">imgs/magasin.png</property>
+    <property name="pixbuf">../imgs/magasin.png</property>
   </object>
   <object class="GtkWindow" id="main_window">
     <property name="can_focus">False</property>
+    <property name="resizable">False</property>
     <property name="default_width">500</property>
     <property name="default_height">250</property>
     <child type="titlebar">
@@ -39,7 +40,7 @@
           <object class="GtkImage" id="tamagotchi_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">test_image.png</property>
+            <property name="pixbuf">../imgs/oeuf(1).png</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
