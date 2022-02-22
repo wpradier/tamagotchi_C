@@ -8,6 +8,9 @@ SRCS = srcs/main.c				\
        srcs/db_connect.c			\
        srcs/game_graphic.c			\
        srcs/fetch_save.c			\
+       srcs/conf_funcs/load_conf.c		\
+       srcs/conf_funcs/print_conf.c		\
+       srcs/conf_funcs/free_conf.c		\
        srcs/tamagotchi_funcs/init_tamagotchi.c	\
        srcs/tamagotchi_funcs/print_tamagotchi.c	\
        srcs/tamagotchi_funcs/free_tamagotchi.c	\

@@ -8,6 +8,7 @@
 # include <mysql/mysql.h>
 
 
+# define BUFF_SIZE 50
 # define QUERY_SIZE 300
 
 
@@ -20,10 +21,10 @@ typedef struct	Config {
 	mybool		display_hygienebar;	
 	int		hunger_frequency;
 	int		work_duration;
-	char		*location;
 	int		grow_time;
 	int		hide_and_seek_duration;
 	int		dictation_duration;
+	char		*location;
 } s_config;
 
 typedef struct	Save {
@@ -61,6 +62,9 @@ typedef struct	GameState {
 MYSQL		*db_connect();
 void 		game_graphic(int*, char***); 
 s_save		*fetch_save(MYSQL *conn, int save_id);
+s_config	*load_conf(char *conf_path);
+void		print_conf(s_config *config);
+void		free_conf(s_config *config);
 s_tamagotchi	*init_tamagotchi(MYSQL *conn, int id_tamagotchi);
 void		print_tamagotchi(s_tamagotchi *tamagotchi);
 void		free_tamagotchi(s_tamagotchi *tamagotchi);

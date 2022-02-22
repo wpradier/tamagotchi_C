@@ -8,6 +8,7 @@ int			main(int argc, char **argv) {
 	MYSQL		*conn;
 	s_tamagotchi	*tamagotchi;
 	s_save		*save;
+	s_config	*config;
 
 	conn = db_connect();
 
@@ -20,6 +21,13 @@ int			main(int argc, char **argv) {
 	g_object_unref(G_OBJECT(gtkBuilder));
 	gtk_widget_show_all(window);
 
+	printf("LOAD CONF\n");
+	if (!(config = load_conf("/home/william/class/A2/S1/C/tamagotchi_C/tamago.conf"))) {
+		mysql_close(conn);
+		return (EXIT_FAILURE);
+	}
+	print_conf(config);
+	free_conf(config);
 	printf("INIT\n");
 	tamagotchi = init_tamagotchi(conn, 1);
 	printf("INITIALIZED\n");
@@ -37,5 +45,5 @@ int			main(int argc, char **argv) {
 	//gtk_main();
 	mysql_close(conn);
 
-	return EXIT_SUCCESS;
+	return (EXIT_SUCCESS);
 }
