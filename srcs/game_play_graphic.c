@@ -4,29 +4,21 @@
 
 void setImage(GtkWidget *widget, gpointer data);
 void changeImage(GtkWidget *widget, gpointer data);
-// void getTime(char *ptr);
-
-int count = 0;
-char *start_game;
-char *last_action;
-
-// void getTime(char *ptr){
+// time_t getTime();
+//
+// time_t getTime(){
 //   /* time */
 //   /* read time */
 //    time_t now = time (NULL);
 //
 //    /* convert in localtime */
-//    struct tm tm_now = *localtime (&now);
+//    // struct tm tm_now = *localtime (&now);
+//    //
+//    // /* create char HH:MM:SS */
+//    // char s_now[sizeof "HH:MM:SS"];
+//    // strftime (s_now, sizeof s_now, "%H:%M:%S", &tm_now);
 //
-//    /* create char HH:MM:SS */
-//    char s_now[sizeof "HH:MM:SS"];
-//    strftime (s_now, sizeof s_now, "%H:%M:%S", &tm_now);
-//
-//     if (count == 1){
-//       start_game = s_now;
-//     }else{
-//       last_action = s_now;
-//     }
+//    return now;
 //
 //    // pour comparer deux dates : difftime()
 // }
@@ -37,22 +29,34 @@ void setImage(GtkWidget *widget, gpointer data){
   char *file = "imgs/calque.png";
 
   gtk_image_set_from_file(GTK_IMAGE(data), file);
-
 }
 
-void changeImage(GtkWidget *widget, gpointer data){
-  if (widget) g_print("\n");
+void            changeImage(GtkWidget *widget, gpointer data){
+   gchar *  start_game;
+   //char         last_action;
+   int          random;
+   GtkWidget    *image_case;
+   GtkWidget    *button;
+   GtkWidget    *start_time;
+   static int   count = 0;
 
-  if (count < COUNT){
+   if (widget) g_print("\n");
+
+   /*init start_time*/
+   start_time = GTK_WIDGET(gtk_builder_get_object(data, "start_time"));
+
+   if (count < COUNT){
     count += 1;
-    int random;
-    GtkWidget *image_case;
-    GtkWidget *button;
 
-    //getTime();
-    start_game = start_game;
-    g_print("\nstart_game : %s", start_game);
-    g_print("\nlast_action : %s", last_action);
+    if (count == 1){
+      start_game = (gchar*) time (NULL);
+      gtk_label_set_text(GTK_LABEL(start_time), (gchar *)start_game);
+    }else{
+    //  last_action = (char)getTime();
+    }
+
+    // g_print("\nstart_game : %s", start_game);
+    // g_print("\nlast_action : %s", last_action);
 
     srand( time( NULL ) );
     random = rand() % 25 + 0;
@@ -74,8 +78,8 @@ void changeImage(GtkWidget *widget, gpointer data){
     g_signal_connect(button, "clicked", G_CALLBACK(changeImage), (gpointer) data);
   } else if (count == COUNT){
     g_print("\njeu fini !!!!");
-    g_print("\nstart_game : %s", start_game);
-    g_print("\nlast_action : %s", last_action);
+    // g_print("\nstart_game : %s", start_game);
+    // g_print("\nlast_action : %s", last_action);
     // double result_time = difftime(last_action, start_game);
     // g_print("\n%lf", result_time);
   }

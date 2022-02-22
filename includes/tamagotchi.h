@@ -58,17 +58,22 @@ typedef struct	GameState {
 	int		money;
 } s_gamestate;
 
+typedef struct Parameters {
+	s_tamagotchi	*tamagotchi;
+	s_gamestate		*gamestate;
+	s_config 			*config;
+	gpointer			data;
+} s_parameters;
 
 MYSQL		*db_connect();
-//void 		homePage(int*, char***);
+void 		homePage(int*, char***, s_parameters *);
 s_save		*fetch_save(MYSQL *conn, int save_id);
 s_tamagotchi	*init_tamagotchi(MYSQL *conn, int id_tamagotchi);
 void		print_tamagotchi(s_tamagotchi *tamagotchi);
 void		free_tamagotchi(s_tamagotchi *tamagotchi);
 s_gamestate	*init_gamestate(s_save *save, s_tamagotchi *tamagotchi);
 //void	db_connect();
-void 	homePage(int*, char***);
 void  gamePlayGraphic();
-
+s_parameters *init_parameters(s_tamagotchi *tamagotchi, s_gamestate *gamestate, gpointer);
 
 #endif

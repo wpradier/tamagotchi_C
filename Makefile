@@ -14,6 +14,7 @@ SRCS = srcs/main.c				\
        srcs/tamagotchi_funcs/print_tamagotchi.c	\
        srcs/tamagotchi_funcs/free_tamagotchi.c	\
        srcs/gamestate_funcs/init_gamestate.c	\
+			 srcs/init_parameters.c	\
 
 
 OBJS = $(SRCS:.c=.o)

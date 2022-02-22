@@ -1,12 +1,12 @@
 #include "tamagotchi.h"
 
-s_gamestate		*GAMESTATE;
-
 int			main(int argc, char **argv) {
-	MYSQL		*conn;
+	MYSQL					*conn;
 	s_tamagotchi	*tamagotchi;
-	s_save		*save;
-	int choice;
+	s_save				*save;
+	int 					choice;
+	s_gamestate		*gamestate;
+	s_parameters	*parameters;
 
 	conn = db_connect();
 
@@ -19,13 +19,13 @@ int			main(int argc, char **argv) {
 	printf("SAVE:\n");
 	printf("name: %s, food: %d, money: %d\n", save->name, save->food, save->money);
 	printf("GAMESTATE:\n");
-	GAMESTATE = init_gamestate(save, tamagotchi);
-	printf("Health: %d, health kits: %d, food: %d, money: %d", GAMESTATE->health, GAMESTATE->health_kits, GAMESTATE->money, GAMESTATE->food);
+	gamestate = init_gamestate(save, tamagotchi);
+	printf("Health: %d, health kits: %d, food: %d, money: %d", gamestate->health, gamestate->health_kits, gamestate->money, gamestate->food);
+	parameters = init_parameters(tamagotchi, gamestate, NULL);
 
-	free_tamagotchi(tamagotchi);
+	//free_tamagotchi(tamagotchi);
 
-	//gtk_main();
-	mysql_close(conn);
+	//mysql_close(conn);
 
 	do{
 		printf("Tapez 0 pour jouer en console ou 1 pour jouer en graphique : ");
@@ -37,7 +37,7 @@ int			main(int argc, char **argv) {
 	}else{
 		printf("Vous êtes en version graphique\n");
 
-		homePage(&argc, &argv);
+		homePage(&argc, &argv, parameters);
     gtk_main();
 	}
 
