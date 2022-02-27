@@ -46,7 +46,7 @@ void          shopPage(s_parameters *parameters){
 
   label_health = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "label_health"));
   display_health = ft_strnew(10);
-  sprintf(display_health, "%d", parameters->gamestate->health_kits); 
+  sprintf(display_health, "%d", parameters->gamestate->health_kits);
   gtk_label_set_text(GTK_LABEL(label_health), (gchar *)display_health);
 
   return_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "return_button"));

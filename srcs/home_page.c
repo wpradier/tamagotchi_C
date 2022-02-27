@@ -28,7 +28,7 @@ void          homePage(int *argc, char***argv, s_parameters *parameters){
 
 	/* init gtk */
 	gtk_init(argc, argv);
-  
+
   printf("HOME PAGE : \n");
   print_parameters(parameters);
 

@@ -28,7 +28,7 @@ void             editName(GtkWidget *widget, gpointer data){
     free(parameters->tamagotchi->name);
     parameters->tamagotchi->name = ft_strnew(strlen((char *)recep_entry_text) + 1);
   	strcpy(parameters->tamagotchi->name, (char *)recep_entry_text);
-    
+
     parameters->data = NULL;
 
     gameGraphic(init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->data));
