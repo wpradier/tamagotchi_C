@@ -31,7 +31,7 @@ void             editName(GtkWidget *widget, gpointer data){
 
     parameters->data = NULL;
 
-    gameGraphic(init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->data));
+    gameGraphic(init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->data));
 
     free(parameters);
 }
@@ -50,8 +50,8 @@ void         nameGraphic(s_parameters *parameters){
   edit_name_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilderName, "edit_name_button"));
   name_input = GTK_WIDGET(gtk_builder_get_object(gtkBuilderName, "name_input"));
 
-  g_signal_connect(edit_name_button, "clicked", G_CALLBACK(editName), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, (gpointer)name_input));
-  g_signal_connect(edit_name_button, "clicked", G_CALLBACK(destroyWindow), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, (gpointer)windowName));
+  g_signal_connect(edit_name_button, "clicked", G_CALLBACK(editName), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)name_input));
+  g_signal_connect(edit_name_button, "clicked", G_CALLBACK(destroyWindow), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)windowName));
 
   free(parameters);
 

@@ -14,7 +14,7 @@ void            deleteHomePage(GtkWidget *widget, gpointer data){
   gtk_widget_destroy(parameters->data);
 
   parameters->data = NULL;
-  nameGraphic(init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->data));
+  nameGraphic(init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->data));
   free(parameters);
 }
 
@@ -45,7 +45,7 @@ void          homePage(int *argc, char***argv, s_parameters *parameters){
   gtk_widget_set_opacity(load_button, 0.5);
 
   new_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "new_button"));
-  g_signal_connect(new_button, "clicked", G_CALLBACK(deleteHomePage), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, (gpointer)window));
+  g_signal_connect(new_button, "clicked", G_CALLBACK(deleteHomePage), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)window));
 
   gtk_widget_show_all(window);
 }

@@ -11,7 +11,7 @@ void            gameGraphicReturn(GtkWidget *widget, gpointer data){
   gtk_widget_destroy(parameters->data);
   parameters->data = NULL;
 
-  gameGraphic(init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->data));
+  gameGraphic(init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->data));
 
   free(parameters);
 }
@@ -50,7 +50,7 @@ void          shopPage(s_parameters *parameters){
   gtk_label_set_text(GTK_LABEL(label_health), (gchar *)display_health);
 
   return_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "return_button"));
-  g_signal_connect(return_button, "clicked", G_CALLBACK(gameGraphicReturn), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, (gpointer)window));
+  g_signal_connect(return_button, "clicked", G_CALLBACK(gameGraphicReturn), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)window));
 
   gtk_widget_show_all(window);
 }

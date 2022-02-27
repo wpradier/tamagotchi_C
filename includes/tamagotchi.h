@@ -83,7 +83,7 @@ s_gamestate		*init_gamestate(s_save *save, s_tamagotchi *tamagotchi);
 //void	db_connect();
 void  				gamePlayGraphic(s_parameters *);
 void 					shopPage(s_parameters *);
-s_parameters 	*init_parameters(s_tamagotchi *tamagotchi, s_gamestate *gamestate, gpointer);
+s_parameters 	*init_parameters(s_tamagotchi *tamagotchi, s_gamestate *gamestate, s_config *, gpointer);
 void 					nameGraphic(s_parameters *);
 void        	gameGraphic(s_parameters *);
 void 					print_parameters(s_parameters *parameters);

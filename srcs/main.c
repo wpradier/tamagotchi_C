@@ -14,13 +14,6 @@ int			main(int argc, char **argv) {
 
 	gtk_init(&argc, &argv);
 
-	gtkBuilder = gtk_builder_new();
-	gtk_builder_add_from_file(gtkBuilder, "test-glade.glade", NULL);
-	window = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "main_window"));
-
-	g_object_unref(G_OBJECT(gtkBuilder));
-	gtk_widget_show_all(window);
-
 	printf("LOAD CONF\n");
 	if (!(config = load_conf("./tamago.conf"))) {
 		mysql_close(conn);
@@ -42,7 +35,7 @@ int			main(int argc, char **argv) {
   gamestate->food = 2;
   tamagotchi->color = "undefined";
 	printf("Health: %d, health kits: %d, food: %d, money: %d\n", gamestate->health, gamestate->health_kits, gamestate->money, gamestate->food);
-	parameters = init_parameters(tamagotchi, gamestate, NULL);
+	parameters = init_parameters(tamagotchi, gamestate, config, NULL);
   print_parameters(parameters);
 
 	//free_tamagotchi(tamagotchi);
