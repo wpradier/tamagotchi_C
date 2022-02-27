@@ -15,7 +15,7 @@ int			main(int argc, char **argv) {
 	gtk_init(&argc, &argv);
 
 	printf("LOAD CONF\n");
-	if (!(config = load_conf("./tamago.conf"))) {
+	if (!(config = load_conf("tamago.conf"))) {
 		mysql_close(conn);
 		return (EXIT_FAILURE);
 	}

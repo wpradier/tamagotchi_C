@@ -1,6 +1,6 @@
 #include "tamagotchi.h"
 
-#define COUNT 5
+//#define COUNT 5
 
 void setImage(GtkWidget *, gpointer);
 void changeImage(GtkWidget *, gpointer);
@@ -61,6 +61,7 @@ void              changeImage(GtkWidget *widget, gpointer data){
    char           id2[200];
    char           idtest2[200];
    char           *file2 = "imgs/game.png";
+   int            count_game;
 
    parameters = (s_parameters *)data;
 
@@ -69,7 +70,11 @@ void              changeImage(GtkWidget *widget, gpointer data){
    /*init start_time*/
    //start_time = GTK_WIDGET(gtk_builder_get_object(data, "start_time"));
 
-   if (count < COUNT){
+   count_game = parameters->config->hide_and_seek_duration;
+   printf("%d", parameters->config->hide_and_seek_duration);
+   print_conf(parameters->config);
+
+   if (count < count_game){
     count += 1;
 
     // if (count == 1){
@@ -95,7 +100,7 @@ void              changeImage(GtkWidget *widget, gpointer data){
 
     g_signal_connect(button, "clicked", G_CALLBACK(setImage), (gpointer) image_case);
     g_signal_connect(button, "clicked", G_CALLBACK(changeImage), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->data));
-  } else if (count == COUNT){
+  } else if (count == count_game){
     g_print("\njeu fini !!!!");
     count = 0;
     parameters->gamestate->money += 25;
