@@ -15,6 +15,13 @@ SRCS = srcs/main.c				\
        srcs/tamagotchi_funcs/free_tamagotchi.c	\
        srcs/gamestate_funcs/init_gamestate.c	\
 			 srcs/init_parameters.c	\
+			 srcs/home_page.c 			\
+			 srcs/name_graphic.c		\
+			 srcs/shop_page.c				\
+			 srcs/print_parameters.c\
+			 srcs/ft_strnew.c				\
+			 srcs/weather.c					\
+			 srcs/alert_page.c			\
 
 
 OBJS = $(SRCS:.c=.o)
@@ -28,7 +35,7 @@ CONFIGS = `pkg-config --cflags gtk+-3.0`	\
 all: $(NAME)
 
 $(NAME):
-	$(CC) $(CFLAGS) $(SRCS) $(CONFIGS) -I $(INCLUDES) -o $(NAME)
+	$(CC) $(CFLAGS) $(SRCS) $(CONFIGS) -I $(INCLUDES) -ljson-c -lcurl -o $(NAME)
 
 clean:
 	rm -f $(OBJS)

@@ -7,6 +7,8 @@
 # include <gtk/gtk.h>
 # include <mysql/mysql.h>
 # include <time.h>
+#include <json-c/json.h>
+#include <curl/curl.h>
 
 
 # define QUERY_SIZE 300
@@ -65,15 +67,22 @@ typedef struct Parameters {
 	gpointer			data;
 } s_parameters;
 
-MYSQL		*db_connect();
-void 		homePage(int*, char***, s_parameters *);
-s_save		*fetch_save(MYSQL *conn, int save_id);
+MYSQL					*db_connect();
+void 					homePage(int*, char***, s_parameters *);
+s_save				*fetch_save(MYSQL *conn, int save_id);
 s_tamagotchi	*init_tamagotchi(MYSQL *conn, int id_tamagotchi);
-void		print_tamagotchi(s_tamagotchi *tamagotchi);
-void		free_tamagotchi(s_tamagotchi *tamagotchi);
-s_gamestate	*init_gamestate(s_save *save, s_tamagotchi *tamagotchi);
+void					print_tamagotchi(s_tamagotchi *tamagotchi);
+void					free_tamagotchi(s_tamagotchi *tamagotchi);
+s_gamestate		*init_gamestate(s_save *save, s_tamagotchi *tamagotchi);
 //void	db_connect();
-void  gamePlayGraphic();
-s_parameters *init_parameters(s_tamagotchi *tamagotchi, s_gamestate *gamestate, gpointer);
+void  				gamePlayGraphic(s_parameters *);
+void 					shopPage(s_parameters *);
+s_parameters 	*init_parameters(s_tamagotchi *tamagotchi, s_gamestate *gamestate, gpointer);
+void 					nameGraphic(s_parameters *);
+void        	gameGraphic(s_parameters *);
+void 					print_parameters(s_parameters *parameters);
+char 					*ft_strnew(size_t n);
+void 					get_weather();
+void 					alertPage(gchar *);
 
 #endif

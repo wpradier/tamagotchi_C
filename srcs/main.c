@@ -1,7 +1,7 @@
 #include "tamagotchi.h"
 
 int			main(int argc, char **argv) {
-	MYSQL					*conn;
+  MYSQL					*conn;
 	s_tamagotchi	*tamagotchi;
 	s_save				*save;
 	int 					choice;
@@ -20,8 +20,11 @@ int			main(int argc, char **argv) {
 	printf("name: %s, food: %d, money: %d\n", save->name, save->food, save->money);
 	printf("GAMESTATE:\n");
 	gamestate = init_gamestate(save, tamagotchi);
-	printf("Health: %d, health kits: %d, food: %d, money: %d", gamestate->health, gamestate->health_kits, gamestate->money, gamestate->food);
+  gamestate->food = 2;
+  tamagotchi->color = "undefined";
+	printf("Health: %d, health kits: %d, food: %d, money: %d\n", gamestate->health, gamestate->health_kits, gamestate->money, gamestate->food);
 	parameters = init_parameters(tamagotchi, gamestate, NULL);
+  print_parameters(parameters);
 
 	//free_tamagotchi(tamagotchi);
 
@@ -37,6 +40,8 @@ int			main(int argc, char **argv) {
 	}else{
 		printf("Vous êtes en version graphique\n");
 
+    printf("CALL HOME PAGE\n");
+    print_parameters(parameters);
 		homePage(&argc, &argv, parameters);
     gtk_main();
 	}
