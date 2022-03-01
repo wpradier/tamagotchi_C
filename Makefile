@@ -25,6 +25,7 @@ SRCS = srcs/main.c				\
 			 srcs/ft_strnew.c				\
 			 srcs/weather.c					\
 			 srcs/alert_page.c			\
+			 srcs/loadPage.c				\
 
 
 OBJS = $(SRCS:.c=.o)

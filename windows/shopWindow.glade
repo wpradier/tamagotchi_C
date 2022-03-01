@@ -61,7 +61,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="button_buy_food">
                 <property name="label" translatable="yes">Acheter</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -149,7 +149,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="button_buy_health">
                 <property name="label" translatable="yes">Acheter</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -245,7 +245,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkImage">
+              <object class="GtkImage" id="init_tamagotchi">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="pixbuf">../imgs/tamagotchiRed/tamagotchiRed0.png</property>
@@ -305,7 +305,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkImage">
+              <object class="GtkImage" id="basic_tamagotchi">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="pixbuf">../imgs/tamagotchiRed/tamagotchiRed1.png</property>
@@ -365,7 +365,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkImage">
+              <object class="GtkImage" id="girl_tamagotchi">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="pixbuf">../imgs/tamagotchiRed/tamagotchiRed2.png</property>
@@ -425,7 +425,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkImage">
+              <object class="GtkImage" id="hero_tamagotchi">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="pixbuf">../imgs/tamagotchiRed/tamagotchiRed3.png</property>

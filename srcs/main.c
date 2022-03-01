@@ -20,7 +20,7 @@ int			main(int argc, char **argv) {
 		return (EXIT_FAILURE);
 	}
 	print_conf(config);
-	free_conf(config);
+	//free_conf(config);
 
 	printf("INIT\n");
 	tamagotchi = init_tamagotchi(conn, 1);

@@ -190,7 +190,7 @@ void            changeTamagotchi(GtkWidget *widget, gpointer data){
 
   if (count == 1){
     srand( time( NULL ) );
-    random = rand() % 2 + 0;
+    random = rand() % 3 + 1;
     if (random == 1){
       parameters->tamagotchi->color = "red";
     }else{

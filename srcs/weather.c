@@ -15,7 +15,6 @@ void get_weather(gpointer image){
   CURLcode            resc;
   char                *result = calloc(1,sizeof(char));
   char                *file;
-  gchar                *weather_condition;
 
   strcpy(res,url);
 
@@ -36,22 +35,14 @@ void get_weather(gpointer image){
   //printf("%s", (const gchar* ) json_object_get_string(weather));
 
   const gchar *string_weather = json_object_get_string(weather);
-  weather_condition = "Clear";
-  printf("METEOOOOOOOOOOOOOOOOOOOOOO\n");
-  printf("%ld\n", sizeof(string_weather));
-  printf("%ld\n", sizeof(weather_condition));
-  printf("%s\n", string_weather);
-  printf("%s\n", weather_condition);
-  if ( string_weather == weather_condition ){
+  if (!strcmp(string_weather, "Clear")){
     printf("ok");
     file = "imgs/fond/sun.png";
   }else{
-    weather_condition = "Rain";
-    if ( string_weather == weather_condition ){
+    if (!strcmp(string_weather, "Rain")){
       file = "imgs/fond/rain.png";
     }else{
-      weather_condition = "Snow";
-      if ( string_weather == weather_condition ){
+      if (!strcmp(string_weather, "Snow")){
         file = "imgs/fond/snow.png";
       }else{
         file = "imgs/fond/cloud.png";

@@ -90,5 +90,6 @@ void 					print_parameters(s_parameters *parameters);
 char 					*ft_strnew(size_t n);
 void 					get_weather();
 void 					alertPage(gchar *);
+void 					load_part(s_parameters *);
 
 #endif
