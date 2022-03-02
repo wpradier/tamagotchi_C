@@ -27,9 +27,8 @@ int			main(int argc, char **argv) {
 		return (EXIT_FAILURE);
 	}
 	print_conf(config);
-	free_conf(config);
 	printf("INIT\n");
-	tamagotchi = init_tamagotchi(conn, 1);
+	tamagotchi = create_tamagotchi(conn, "Jean-Charles");
 	printf("INITIALIZED\n");
 	print_tamagotchi(tamagotchi);
 	printf("FETCH SAVE\n");
@@ -37,10 +36,11 @@ int			main(int argc, char **argv) {
 	printf("SAVE:\n");
 	printf("name: %s, food: %d, money: %d\n", save->name, save->food, save->money);
 	printf("GAMESTATE:\n");
-	GAMESTATE = init_gamestate(save, tamagotchi);
+	GAMESTATE = init_gamestate(save, tamagotchi, config);
 	printf("Health: %d, health kits: %d, food: %d, money: %d", GAMESTATE->health, GAMESTATE->health_kits, GAMESTATE->money, GAMESTATE->food);
 
 	free_tamagotchi(tamagotchi);
+	free_conf(config);
 
 	//gtk_main();
 	mysql_close(conn);

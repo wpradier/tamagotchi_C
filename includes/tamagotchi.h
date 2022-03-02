@@ -8,8 +8,10 @@
 # include <mysql/mysql.h>
 
 
-# define BUFF_SIZE 50
-# define QUERY_SIZE 300
+# define BUFF_SIZE 	50
+# define QUERY_SIZE 	400
+# define WASH_FREQUENCY	10
+# define FUN_FREQUENCY	10
 
 
 typedef unsigned char	mybool;
@@ -37,14 +39,15 @@ typedef struct	Save {
 typedef struct 	Tamagotchi {
 	char		*name;
 	char		*color;
-	char		*birthdate;
+	time_t		birthdate;
 	mybool		alive;
-	char		*last_fed;
-	char		*last_washed;
-	char		*last_played;
-	char		*last_worked;
+	mybool		born;
+	time_t		last_fed;
+	time_t		last_washed;
+	time_t		last_played;
+	time_t		last_worked;
 	unsigned short	health_bar;
-	char		*last_health_update;
+	time_t		last_health_update;
 	char		*outfit;
 } s_tamagotchi;
 
@@ -62,12 +65,15 @@ typedef struct	GameState {
 MYSQL		*db_connect();
 void 		game_graphic(int*, char***); 
 s_save		*fetch_save(MYSQL *conn, int save_id);
+char		*ft_strnew(size_t n);
 s_config	*load_conf(char *conf_path);
 void		print_conf(s_config *config);
 void		free_conf(s_config *config);
+s_tamagotchi	*create_tamagotchi(MYSQL *conn, char *name);
 s_tamagotchi	*init_tamagotchi(MYSQL *conn, int id_tamagotchi);
 void		print_tamagotchi(s_tamagotchi *tamagotchi);
 void		free_tamagotchi(s_tamagotchi *tamagotchi);
-s_gamestate	*init_gamestate(s_save *save, s_tamagotchi *tamagotchi);
+s_gamestate	*init_gamestate(s_save *save, s_tamagotchi *tamagotchi, s_config *config);
+int		update_gamestate(s_gamestate *gamestate, s_tamagotchi *tamagotchi, s_config *config);
 
 #endif
