@@ -49,9 +49,6 @@ s_tamagotchi		*create_tamagotchi(MYSQL *conn, char *name) {
 
 	color = get_color();
 
-	printf("COLOR: %s\n", color);
-	printf("ID: %d\n", id);
-
 
 	snprintf(query, QUERY_SIZE, "INSERT INTO TAMAGOTCHIS VALUES (%d, \"%s\", \"%s\", %ld, %d, %d, %ld, %ld, %ld, NULL, 100, %ld, 1, 1);", id, name, color, curr, 1, 0, curr, curr, curr, curr);
 
@@ -59,7 +56,6 @@ s_tamagotchi		*create_tamagotchi(MYSQL *conn, char *name) {
 	free(color);
 
 	mysql_query(conn, query);
-	printf("QUERY: %s\n", query);
 
 	return init_tamagotchi(conn, id);
 }
