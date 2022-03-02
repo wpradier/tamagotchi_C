@@ -8,6 +8,7 @@ void        gamePlay(GtkWidget *, gpointer);
 void        goToWork(GtkWidget *, gpointer);
 void        changeImageState(GtkWidget *, gpointer);
 void        updateBored(GtkWidget *, gpointer);
+gboolean saveSeconds(gpointer);
 
 void            marketButton(GtkWidget *widget, gpointer data){
   s_parameters  *parameters;
@@ -39,6 +40,7 @@ void              updateFood(GtkWidget *widget, gpointer data){
      time_t now = time (NULL);
 
       parameters->tamagotchi->last_fed = now;
+      save_tamagotchi(parameters->conn, parameters->tamagotchi);
    }else{
      alertPage("Achetez de la nourriture !");
    }
@@ -60,6 +62,7 @@ void              updateHealth(GtkWidget *widget, gpointer data){
 
        time_t now = time (NULL);
        parameters->tamagotchi->last_health_update = now;
+       save_tamagotchi(parameters->conn, parameters->tamagotchi);
      }else{
        alertPage("Achetez des kits de soin !");
      }
@@ -78,6 +81,7 @@ void              updateHygiene(GtkWidget *widget, gpointer data){
    time_t now = time (NULL);
 
    parameters->tamagotchi->last_washed = now;
+   save_tamagotchi(parameters->conn, parameters->tamagotchi);
    parameters->data = NULL;
 }
 
@@ -94,6 +98,7 @@ void              updateBored(GtkWidget *widget, gpointer data){
    time_t now = time (NULL);
 
    parameters->tamagotchi->last_played = now;
+   save_tamagotchi(parameters->conn, parameters->tamagotchi);
    parameters->data = NULL;
 }
 
@@ -110,6 +115,7 @@ void              goToWork(GtkWidget *widget, gpointer data){
    time_t now = time (NULL);
 
    parameters->tamagotchi->last_worked = now;
+   save_tamagotchi(parameters->conn, parameters->tamagotchi);
    parameters->data = NULL;
 
    free(parameters);
@@ -141,6 +147,7 @@ void            changeTamagotchi(GtkWidget *widget, gpointer data){
      time_t now = time (NULL);
      parameters->tamagotchi->birthdate = now;
      parameters->tamagotchi->born = 1;
+     save_tamagotchi(parameters->conn, parameters->tamagotchi);
    }else{
      count += 1;
    }
@@ -275,6 +282,19 @@ void            changeImageState(GtkWidget *widget, gpointer data){
   //free(parameters);
 }
 
+gboolean      saveSeconds(gpointer data){
+  s_parameters  *parameters;
+
+  parameters = (s_parameters *)data;
+
+  save_tamagotchi(parameters->conn, parameters->tamagotchi);
+  update_gamestate(parameters->gamestate, parameters->tamagotchi, parameters->config);
+
+  //free(parameters);
+
+  return TRUE;
+}
+
 void         gameGraphic(s_parameters *parameters)
 {
 	GtkBuilder *gtkBuilder;
@@ -359,6 +379,8 @@ void         gameGraphic(s_parameters *parameters)
   if (!(parameters->config->display_hygienebar)){
     gtk_widget_hide(hygiene_bar);
   }
+
+  g_timeout_add(2, saveSeconds, (gpointer)init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, (gpointer)image_tamagotchi));
 
   free(parameters);
 }

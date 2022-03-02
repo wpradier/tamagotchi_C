@@ -1,13 +1,13 @@
 #include "tamagotchi.h"
 
 int			save_tamagotchi(MYSQL *conn, s_tamagotchi *tamagotchi) {
-	MYSQL_RES	*res;
+	// MYSQL_RES	*res;
 	char		query[QUERY_SIZE];
 	int		outfit;
 
 	if (!strcmp(tamagotchi->outfit, "tee-shirt")) {
 		outfit = 2;
-	} else if (!strcmp(tamagotchi->outfit, "accessories"))
+	} else if (!strcmp(tamagotchi->outfit, "accessories")){
 		outfit = 3;
 	} else if (!strcmp(tamagotchi->outfit, "cape")) {
 		outfit = 4;
@@ -19,6 +19,8 @@ int			save_tamagotchi(MYSQL *conn, s_tamagotchi *tamagotchi) {
 
 
 	printf("QUERY: %s\n", query);
+
+	mysql_query(conn, query);
 
 	return (1);
 }
