@@ -1,8 +1,11 @@
 #include "tamagotchi.h"
 
 void			set_tamagotchi_fields(s_tamagotchi *tamagotchi, MYSQL_ROW row) {
-	tamagotchi->name = row[0];
-	tamagotchi->color = row[1];
+
+	tamagotchi->name = ft_strnew(strlen(row[0]) + 1);
+	strcpy(tamagotchi->name, row[0]);
+	tamagotchi->color = ft_strnew(strlen(row[1]) + 1);
+	strcpy(tamagotchi->color, row[1]);
 	tamagotchi->birthdate = atoi(row[2]);
 	tamagotchi->alive = atoi(row[3]);
 	tamagotchi->born = atoi(row[4]);
@@ -18,13 +21,14 @@ void			set_tamagotchi_fields(s_tamagotchi *tamagotchi, MYSQL_ROW row) {
 
 	tamagotchi->health_bar = atoi(row[9]);
 	tamagotchi->last_health_update = atoi(row[10]);
-	tamagotchi->outfit = row[11];
+	tamagotchi->outfit = ft_strnew(strlen(row[11]) + 1);
+	strcpy(tamagotchi->outfit, row[11]);
 }
 
 s_tamagotchi		*init_tamagotchi(MYSQL *conn, int tamagotchi_id) {
-	MYSQL_RES	*res;
-	MYSQL_ROW	row;
-	char		query[QUERY_SIZE];
+	MYSQL_RES			*res;
+	MYSQL_ROW			row;
+	char					query[QUERY_SIZE];
 	s_tamagotchi	*tamagotchi;
 
 	snprintf(query, QUERY_SIZE, "SELECT TAMAGOTCHIS.name, color, birthdate, alive, born, last_fed, last_washed, last_played, last_worked, health_bar, last_health_update, OUTFITS.name as outfit FROM TAMAGOTCHIS LEFT JOIN OUTFITS ON TAMAGOTCHIS.id_outfit = OUTFITS.id WHERE TAMAGOTCHIS.id = %d;", tamagotchi_id);

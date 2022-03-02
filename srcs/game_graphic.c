@@ -1,65 +1,342 @@
 #include "tamagotchi.h"
 
-static void buttonClicked();
-void updateFood();
+void        marketButton(GtkWidget *, gpointer);
+void        updateFood(GtkWidget *, gpointer);
+void        updateHealth(GtkWidget *, gpointer);
+void        updateHygiene(GtkWidget *, gpointer);
+void        gamePlay(GtkWidget *, gpointer);
+void        goToWork(GtkWidget *, gpointer);
+void        changeImageState(GtkWidget *, gpointer);
+void        updateBored(GtkWidget *, gpointer);
 
-static void buttonClicked(){
-        g_print("Bouton pressé\n");
+void            marketButton(GtkWidget *widget, gpointer data){
+  s_parameters  *parameters;
+
+  parameters = (s_parameters *)data;
+
+  if (widget) g_print("Magasin\n");
+  gtk_widget_destroy(parameters->data);
+
+  shopPage(parameters);
+
+  free(parameters);
 }
 
-void updateFood(GtkWidget *widget, gpointer data){
+void              updateFood(GtkWidget *widget, gpointer data){
+    s_parameters  *parameters;
+
+    parameters = (s_parameters *)data;
+
     if (widget) g_print("Modification progresse barre\n");
-    gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(data), 0.9);
+
+    if (parameters->gamestate->food > 0){
+      double value = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(parameters->data));
+      value -= 0.25;
+      gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(parameters->data), value);
+
+      parameters->gamestate->food -= 1;
+
+     time_t now = time (NULL);
+
+      parameters->tamagotchi->last_fed = now;
+   }else{
+     alertPage("Achetez de la nourriture !");
+   }
 }
 
-void game_graphic(int *argc, char***argv)
+void              updateHealth(GtkWidget *widget, gpointer data){
+    s_parameters  *parameters;
+
+    parameters = (s_parameters *)data;
+
+    if (widget) g_print("Modification progresse barre\n");
+
+    if ( parameters->gamestate->health_kits > 0 ){
+      double value = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(parameters->data));
+      value = 1;
+      gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(parameters->data), value);
+
+      parameters->gamestate->health_kits -= 1;
+
+       time_t now = time (NULL);
+       parameters->tamagotchi->last_health_update = now;
+     }else{
+       alertPage("Achetez des kits de soin !");
+     }
+}
+
+void              updateHygiene(GtkWidget *widget, gpointer data){
+    s_parameters  *parameters;
+
+    parameters = (s_parameters *)data;
+
+    if (widget) g_print("Modification progresse barre\n");
+    double value = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(parameters->data));
+    value += 0.25;
+    gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(parameters->data), value);
+
+   time_t now = time (NULL);
+
+   parameters->tamagotchi->last_washed = now;
+   parameters->data = NULL;
+}
+
+void              updateBored(GtkWidget *widget, gpointer data){
+    s_parameters  *parameters;
+
+    parameters = (s_parameters *)data;
+
+    if (widget) g_print("Modification progresse barre\n");
+    double value = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(parameters->data));
+    value += 0.25;
+    gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(parameters->data), value);
+
+   time_t now = time (NULL);
+
+   parameters->tamagotchi->last_played = now;
+   parameters->data = NULL;
+}
+
+void              goToWork(GtkWidget *widget, gpointer data){
+    s_parameters  *parameters;
+
+    parameters = (s_parameters *)data;
+
+    if (widget) g_print("Aller au travail\n");
+
+    char *file = "imgs/calqueWork.png";
+    gtk_image_set_from_file(GTK_IMAGE(parameters->data), file);
+
+   time_t now = time (NULL);
+
+   parameters->tamagotchi->last_worked = now;
+   parameters->data = NULL;
+
+   free(parameters);
+}
+
+void            gamePlay(GtkWidget *widget, gpointer data){
+  s_parameters  *parameters;
+
+  parameters = (s_parameters *)data;
+
+  if (widget) g_print("Jeu lancé\n");
+
+  gtk_widget_destroy(parameters->data);
+
+  gamePlayGraphic(parameters);
+
+  free(parameters);
+}
+
+void            changeTamagotchi(GtkWidget *widget, gpointer data){
+  static int    count = 1;
+  s_parameters  *parameters;
+
+  parameters = (s_parameters *)data;
+
+  if (widget) g_print("NAISSANCE DU TAMAGO\n");
+
+   if (count == 1 && parameters->tamagotchi->born == 0){
+     time_t now = time (NULL);
+     parameters->tamagotchi->birthdate = now;
+     parameters->tamagotchi->born = 1;
+   }else{
+     count += 1;
+   }
+
+  free(parameters);
+}
+
+void            changeImageState(GtkWidget *widget, gpointer data){
+  GtkWidget     *food_bar;
+  GtkWidget     *image_tamagotchi;
+  GtkWidget     *hygiene_bar;
+  double        value_food;
+  double        value_hygiene;
+  s_parameters  *parameters;
+  char          *image_file;
+
+  if (widget) g_print("Change image food\n");
+
+  parameters = (s_parameters *)data;
+
+  image_tamagotchi = GTK_WIDGET(gtk_builder_get_object(parameters->data, "tamagotchi_image"));
+  food_bar = GTK_WIDGET(gtk_builder_get_object(parameters->data, "food_bar"));
+  hygiene_bar = GTK_WIDGET(gtk_builder_get_object(parameters->data, "hygiene_bar"));
+  value_food = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(food_bar));
+  value_hygiene = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(hygiene_bar));
+
+  if (parameters->tamagotchi->born != 1){
+    image_file = "imgs/egg.png";
+  }else{
+    if (value_food > 0.5){
+      if ((parameters->tamagotchi->birthdate - time(NULL)) > parameters->config->grow_time){
+        if ( !strcmp(parameters->tamagotchi->color, "red")){
+          if (!strcmp(parameters->tamagotchi->outfit, "none")){
+            image_file = "imgs/tamagotchiRed/tamagotchiRedHunger0.png";
+          }else{
+            if (!strcmp(parameters->tamagotchi->outfit, "tee-shirt")){
+              image_file = "imgs/tamagotchiRed/tamagotchiRedHunger1.png";
+            }else{
+              if (!strcmp(parameters->tamagotchi->outfit, "accessories")){
+                image_file = "imgs/tamagotchiRed/tamagotchiRedHunger2.png";
+              }else{
+                image_file = "imgs/tamagotchiRed/tamagotchiRedHunger3.png";
+              }
+            }
+          }
+        }else{
+          if (!strcmp(parameters->tamagotchi->outfit, "none")){
+            image_file = "imgs/tamagotchiPurple/tamagotchiPurpleHunger0.png";
+          }else{
+            if (!strcmp(parameters->tamagotchi->outfit, "tee-shirt")){
+              image_file = "imgs/tamagotchiPurple/tamagotchiPurpleHunger1.png";
+            }else{
+              if (!strcmp(parameters->tamagotchi->outfit, "accessories")){
+                image_file = "imgs/tamagotchiPurple/tamagotchiPurpleHunger2.png";
+              }else{
+                image_file = "imgs/tamagotchiPurple/tamagotchiPurpleHunger3.png";
+              }
+            }
+          }
+        }
+      }else{
+        if ( !strcmp(parameters->tamagotchi->color, "red")){
+          image_file = "imgs/tamagotchiRedChild/tamagotchiRedHungerChild.png";
+        }else{
+          image_file = "imgs/tamagotchiPurpleChild/tamagotchiPurpleHungerChild.png";
+        }
+      }
+    }else{
+      if (value_hygiene < 0.5){
+        if ((parameters->tamagotchi->birthdate - time(NULL)) > parameters->config->grow_time){
+          if ( !strcmp(parameters->tamagotchi->color, "red")){
+            if (!strcmp(parameters->tamagotchi->outfit, "none")){
+              image_file = "imgs/tamagotchiRed/tamagotchiRedDirty0.png";
+            }else{
+              if (!strcmp(parameters->tamagotchi->outfit, "tee-shirt")){
+                image_file = "imgs/tamagotchiRed/tamagotchiRedDirty1.png";
+              }else{
+                if (!strcmp(parameters->tamagotchi->outfit, "accessories")){
+                  image_file = "imgs/tamagotchiRed/tamagotchiRedDirty2.png";
+                }else{
+                  image_file = "imgs/tamagotchiRed/tamagotchiRedDirty3.png";
+                }
+              }
+            }
+          }else{
+            if (!strcmp(parameters->tamagotchi->outfit, "none")){
+              image_file = "imgs/tamagotchiPurple/tamagotchiPurpleDirty0.png";
+            }else{
+              if (!strcmp(parameters->tamagotchi->outfit, "tee-shirt")){
+                image_file = "imgs/tamagotchiPurple/tamagotchiPurpleDirty1.png";
+              }else{
+                if (!strcmp(parameters->tamagotchi->outfit, "accessories")){
+                  image_file = "imgs/tamagotchiPurple/tamagotchiPurpleDirty2.png";
+                }else{
+                  image_file = "imgs/tamagotchiPurple/tamagotchiPurpleDirty3.png";
+                }
+              }
+            }
+          }
+        }else{
+          if ( !strcmp(parameters->tamagotchi->color, "red") ){
+            image_file = "imgs/tamagotchiRedChild/tamagotchiRedDirtyChild.png";
+          }else{
+            image_file = "imgs/tamagotchiPurpleChild/tamagotchiPurpleDirtyChild.png";
+          }
+        }
+      }else{
+        if ((parameters->tamagotchi->birthdate - time(NULL)) > parameters->config->grow_time){
+          if ( !strcmp(parameters->tamagotchi->color, "red") ){
+            image_file = "imgs/tamagotchiRed/tamagotchiRed0.png";
+          }else{
+            image_file = "imgs/tamagotchiPurple/tamagotchiPurple0.png";
+          }
+        }else{
+          if ( !strcmp(parameters->tamagotchi->color, "red") ){
+            image_file = "imgs/tamagotchiRedChild/tamagotchiRedChild.png";
+          }else{
+            image_file = "imgs/tamagotchiPurpleChild/tamagotchiPurpleChild.png";
+          }
+        }
+      }
+    }
+  }
+
+  gtk_image_set_from_file(GTK_IMAGE(image_tamagotchi), image_file);
+
+  //free(parameters);
+}
+
+void         gameGraphic(s_parameters *parameters)
 {
-	//init variable
 	GtkBuilder *gtkBuilder;
-	GtkWidget *window;
-	GtkWidget *label_test;
-	GtkWidget *button_test;
-  GtkWidget *image_tamagotchi;
-  GtkWidget *food_barre;
-  GtkWidget *food_button;
+	GtkWidget  *window;
+	GtkWidget  *market_button;
+  GtkWidget  *image_tamagotchi;
+  GtkWidget  *food_bar;
+  GtkWidget  *food_button;
+  GtkWidget  *game_button;
+  GtkWidget  *health_bar;
+  GtkWidget  *health_button;
+  GtkWidget  *hygiene_bar;
+  GtkWidget  *hygiene_button;
+  GtkWidget  *work_button;
+  GtkWidget  *bored_bar;
+  GtkWidget  *name_label;
+  GtkWidget  *image_background;
 
-	/* init gtk */
-	gtk_init(argc, argv);
-
-	/* Create window gtk */
+  /* Create window gtk */
 	gtkBuilder = gtk_builder_new();
-	gtkBuilder = gtk_builder_new_from_file("test-glade.glade");
+	gtkBuilder = gtk_builder_new_from_file("windows/principalWindow.glade");
 	window = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "main_window"));
 	gtk_builder_connect_signals(gtkBuilder, NULL);
 
-	/* init label test */
-	label_test = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "label_test"));
+  g_print("NOM : %s\n", parameters->tamagotchi->name);
+  print_parameters(parameters);
 
-	/* Change test label */
-  char *test = "test";
-	gtk_label_set_text(GTK_LABEL(label_test), test);
+  image_background = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "image_background"));
+  get_weather((gpointer)image_background);
 
-	/* Get test label */
-	const gchar *recep = gtk_label_get_text(GTK_LABEL(label_test));
-	g_print("%s", recep);
+  name_label = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "name_label"));
+  gtk_label_set_text(GTK_LABEL(name_label), (gchar *)parameters->tamagotchi->name);
 
-	/* init button test*/
-	button_test = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "buttonTest"));
-	g_signal_connect(button_test, "clicked", G_CALLBACK(buttonClicked), (gpointer) NULL);
+	market_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "market_button"));
+	g_signal_connect(market_button, "clicked", G_CALLBACK(marketButton), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)window));
 
-  /* init tamagotchi image */
 	image_tamagotchi = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "tamagotchi_image"));
-  char *file = "image.jpg";
-  /* change link image */
-  gtk_image_set_from_file(GTK_IMAGE(image_tamagotchi), file);
 
-  /* init container food_barre */
-	food_barre = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "food_barre"));
-
-  /*init button food */
+  food_bar = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "food_bar"));
+  // if (!parameters->config->display_hungerbar){
+  //   gtk_widget_hide(food_bar);
+  // }
   food_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "button_food"));
-  g_signal_connect(food_button, "clicked", G_CALLBACK(updateFood), (gpointer) food_barre);
+  changeImageState(food_button, (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)gtkBuilder));
+  g_signal_connect(food_button, "clicked", G_CALLBACK(updateFood), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)food_bar));
+  g_signal_connect(food_button, "clicked", G_CALLBACK(changeImageState), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)gtkBuilder));
 
-	/* Print and event loop */
+	health_bar = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "health_bar"));
+  health_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "health_button"));
+  g_signal_connect(health_button, "clicked", G_CALLBACK(updateHealth), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)health_bar));
+
+	hygiene_bar = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "hygiene_bar"));
+  hygiene_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "hygiene_button"));
+  g_signal_connect(hygiene_button, "clicked", G_CALLBACK(updateHygiene), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)hygiene_bar));
+  g_signal_connect(hygiene_button, "clicked", G_CALLBACK(changeImageState), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)gtkBuilder));
+
+  work_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "button_work"));
+  g_signal_connect(work_button, "clicked", G_CALLBACK(goToWork), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)image_tamagotchi));
+  //g_timeout_add_seconds(parameters->config->work_duration, finishWork, (gpointer)init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)image_tamagotchi));
+
+  bored_bar = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "bored_bar"));
+  game_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "game_button"));
+  g_signal_connect(game_button, "clicked", G_CALLBACK(changeTamagotchi), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)image_tamagotchi));
+  g_signal_connect(game_button, "clicked", G_CALLBACK(gamePlay), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)window));
+  g_signal_connect(game_button, "clicked", G_CALLBACK(updateBored), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)bored_bar));
+
+  free(parameters);
+
 	gtk_widget_show_all(window);
 }

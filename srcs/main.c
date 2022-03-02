@@ -1,32 +1,26 @@
 #include "tamagotchi.h"
 
-s_gamestate		*GAMESTATE;
-
 int			main(int argc, char **argv) {
-	GtkBuilder	*gtkBuilder;
-	GtkWidget 	*window;
-	MYSQL		*conn;
+  MYSQL					*conn;
 	s_tamagotchi	*tamagotchi;
-	s_save		*save;
-	s_config	*config;
+
+	s_save		    *save;
+	s_config	    *config;
+  int 					choice;
+	s_gamestate		*gamestate;
+	s_parameters	*parameters;
 
 	conn = db_connect();
 
 	gtk_init(&argc, &argv);
 
-	gtkBuilder = gtk_builder_new();
-	gtk_builder_add_from_file(gtkBuilder, "test-glade.glade", NULL);
-	window = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "main_window"));
-
-	g_object_unref(G_OBJECT(gtkBuilder));
-	gtk_widget_show_all(window);
-
 	printf("LOAD CONF\n");
-	if (!(config = load_conf("/home/william/class/A2/S1/C/tamagotchi_C/tamago.conf"))) {
+	if (!(config = load_conf("tamago.conf"))) {
 		mysql_close(conn);
 		return (EXIT_FAILURE);
 	}
 	print_conf(config);
+
 	printf("INIT\n");
 	tamagotchi = create_tamagotchi(conn, "Jean-Charles");
 	printf("INITIALIZED\n");
@@ -36,14 +30,29 @@ int			main(int argc, char **argv) {
 	printf("SAVE:\n");
 	printf("name: %s, food: %d, money: %d\n", save->name, save->food, save->money);
 	printf("GAMESTATE:\n");
-	GAMESTATE = init_gamestate(save, tamagotchi, config);
-	printf("Health: %d, health kits: %d, food: %d, money: %d", GAMESTATE->health, GAMESTATE->health_kits, GAMESTATE->money, GAMESTATE->food);
+	gamestate = init_gamestate(save, tamagotchi, config);
+	printf("Health: %d, health kits: %d, food: %d, money: %d\n", gamestate->health, gamestate->health_kits, gamestate->money, gamestate->food);
+	parameters = init_parameters(tamagotchi, gamestate, config, NULL);
+  print_parameters(parameters);
 
-	free_tamagotchi(tamagotchi);
-	free_conf(config);
+	do{
+		printf("Tapez 0 pour jouer en console ou 1 pour jouer en graphique : ");
+		scanf("%d", &choice);
+	}while(choice != 0 && choice != 1);
 
-	//gtk_main();
-	mysql_close(conn);
+	if (choice == 0){
+		printf("Vous êtes en version console\n");
+
+		game_consol(parameters);
+	}else{
+		printf("Vous êtes en version graphique\n");
+
+
+    printf("CALL HOME PAGE\n");
+    print_parameters(parameters);
+		homePage(&argc, &argv, parameters);
+    gtk_main();
+	}
 
 	return (EXIT_SUCCESS);
 }
