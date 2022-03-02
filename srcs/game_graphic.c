@@ -161,12 +161,15 @@ void            changeImageState(GtkWidget *widget, gpointer data){
 
   parameters = (s_parameters *)data;
 
+  printf("TEST1\n");
+
   image_tamagotchi = GTK_WIDGET(gtk_builder_get_object(parameters->data, "tamagotchi_image"));
   food_bar = GTK_WIDGET(gtk_builder_get_object(parameters->data, "food_bar"));
   hygiene_bar = GTK_WIDGET(gtk_builder_get_object(parameters->data, "hygiene_bar"));
   value_food = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(food_bar));
   value_hygiene = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(hygiene_bar));
 
+  printf("TEST2\n");
   if (parameters->tamagotchi->born != 1){
     image_file = "imgs/egg.png";
   }else{
@@ -265,6 +268,8 @@ void            changeImageState(GtkWidget *widget, gpointer data){
     }
   }
 
+  printf("TEST3\n");
+
   gtk_image_set_from_file(GTK_IMAGE(image_tamagotchi), image_file);
 
   //free(parameters);
@@ -304,39 +309,56 @@ void         gameGraphic(s_parameters *parameters)
   gtk_label_set_text(GTK_LABEL(name_label), (gchar *)parameters->tamagotchi->name);
 
 	market_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "market_button"));
-	g_signal_connect(market_button, "clicked", G_CALLBACK(marketButton), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)window));
+	g_signal_connect(market_button, "clicked", G_CALLBACK(marketButton), (gpointer) init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, (gpointer)window));
 
 	image_tamagotchi = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "tamagotchi_image"));
 
   food_bar = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "food_bar"));
-  // if (!parameters->config->display_hungerbar){
-  //   gtk_widget_hide(food_bar);
-  // }
   food_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "button_food"));
-  changeImageState(food_button, (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)gtkBuilder));
-  g_signal_connect(food_button, "clicked", G_CALLBACK(updateFood), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)food_bar));
-  g_signal_connect(food_button, "clicked", G_CALLBACK(changeImageState), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)gtkBuilder));
+  changeImageState(food_button, (gpointer) init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, (gpointer)gtkBuilder));
+  g_signal_connect(food_button, "clicked", G_CALLBACK(updateFood), (gpointer) init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, (gpointer)food_bar));
+  g_signal_connect(food_button, "clicked", G_CALLBACK(changeImageState), (gpointer) init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, (gpointer)gtkBuilder));
 
 	health_bar = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "health_bar"));
   health_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "health_button"));
-  g_signal_connect(health_button, "clicked", G_CALLBACK(updateHealth), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)health_bar));
+  g_signal_connect(health_button, "clicked", G_CALLBACK(updateHealth), (gpointer) init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, (gpointer)health_bar));
 
 	hygiene_bar = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "hygiene_bar"));
   hygiene_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "hygiene_button"));
-  g_signal_connect(hygiene_button, "clicked", G_CALLBACK(updateHygiene), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)hygiene_bar));
-  g_signal_connect(hygiene_button, "clicked", G_CALLBACK(changeImageState), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)gtkBuilder));
+  g_signal_connect(hygiene_button, "clicked", G_CALLBACK(updateHygiene), (gpointer) init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, (gpointer)hygiene_bar));
+  g_signal_connect(hygiene_button, "clicked", G_CALLBACK(changeImageState), (gpointer) init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, (gpointer)gtkBuilder));
 
   work_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "button_work"));
-  g_signal_connect(work_button, "clicked", G_CALLBACK(goToWork), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)image_tamagotchi));
-  //g_timeout_add_seconds(parameters->config->work_duration, finishWork, (gpointer)init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)image_tamagotchi));
+  g_signal_connect(work_button, "clicked", G_CALLBACK(goToWork), (gpointer) init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, (gpointer)image_tamagotchi));
+  //g_timeout_add_seconds(parameters->config->work_duration, finishWork, (gpointer)init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, (gpointer)image_tamagotchi));
 
   bored_bar = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "bored_bar"));
   game_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "game_button"));
-  g_signal_connect(game_button, "clicked", G_CALLBACK(changeTamagotchi), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)image_tamagotchi));
-  g_signal_connect(game_button, "clicked", G_CALLBACK(gamePlay), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)window));
-  g_signal_connect(game_button, "clicked", G_CALLBACK(updateBored), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)bored_bar));
-
-  free(parameters);
+  g_signal_connect(game_button, "clicked", G_CALLBACK(changeTamagotchi), (gpointer) init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, (gpointer)image_tamagotchi));
+  g_signal_connect(game_button, "clicked", G_CALLBACK(gamePlay), (gpointer) init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, (gpointer)window));
+  g_signal_connect(game_button, "clicked", G_CALLBACK(updateBored), (gpointer) init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, (gpointer)bored_bar));
 
 	gtk_widget_show_all(window);
+
+  if (!(parameters->config->display_hungerbar)){
+    gtk_widget_hide(food_bar);
+  }
+
+  if (!(parameters->config->display_healthbar)){
+    gtk_widget_hide(health_bar);
+  }
+
+  if (!(parameters->config->display_healthbar)){
+    gtk_widget_hide(health_bar);
+  }
+
+  if (!(parameters->config->display_funbar)){
+    gtk_widget_hide(bored_bar);
+  }
+
+  if (!(parameters->config->display_hygienebar)){
+    gtk_widget_hide(hygiene_bar);
+  }
+
+  free(parameters);
 }

@@ -16,7 +16,8 @@ void            destroyWindow(GtkWidget *widget, gpointer data){
 }
 
 void             editName(GtkWidget *widget, gpointer data){
-    s_parameters *parameters;
+    s_parameters  *parameters;
+    char          *name;
 
     parameters = (s_parameters *)data;
 
@@ -25,14 +26,15 @@ void             editName(GtkWidget *widget, gpointer data){
     const gchar *recep_entry_text = gtk_entry_get_text(GTK_ENTRY(parameters->data));
     g_print("%s", recep_entry_text);
 
-    free(parameters->tamagotchi->name);
-    parameters->tamagotchi->name = ft_strnew(strlen((char *)recep_entry_text) + 1);
-    create_tamagotchi(conn,   parameters->tamagotchi->name);
-  	strcpy(parameters->tamagotchi->name, (char *)recep_entry_text);
+    name = ft_strnew(strlen((char *)recep_entry_text) + 1);
+    strcpy(name, (char *)recep_entry_text);
+    parameters->tamagotchi = create_tamagotchi(parameters->conn, name);
+
+    parameters->gamestate = init_gamestate(parameters->save, parameters->tamagotchi, parameters->config);
 
     parameters->data = NULL;
 
-    gameGraphic(init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->data));
+    gameGraphic(init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, parameters->data));
 
     free(parameters);
 }
@@ -51,8 +53,8 @@ void         nameGraphic(s_parameters *parameters){
   edit_name_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilderName, "edit_name_button"));
   name_input = GTK_WIDGET(gtk_builder_get_object(gtkBuilderName, "name_input"));
 
-  g_signal_connect(edit_name_button, "clicked", G_CALLBACK(editName), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)name_input));
-  g_signal_connect(edit_name_button, "clicked", G_CALLBACK(destroyWindow), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)windowName));
+  g_signal_connect(edit_name_button, "clicked", G_CALLBACK(editName), (gpointer) init_parameters(parameters->save , parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, (gpointer)name_input));
+  g_signal_connect(edit_name_button, "clicked", G_CALLBACK(destroyWindow), (gpointer) init_parameters(parameters->save , parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, (gpointer)windowName));
 
   free(parameters);
 

@@ -2,12 +2,9 @@
 
 int			main(int argc, char **argv) {
   MYSQL					*conn;
-	s_tamagotchi	*tamagotchi;
-
 	s_save		    *save;
 	s_config	    *config;
   int 					choice;
-	s_gamestate		*gamestate;
 	s_parameters	*parameters;
 
 	conn = db_connect();
@@ -21,19 +18,11 @@ int			main(int argc, char **argv) {
 	}
 	print_conf(config);
 
-	printf("INIT\n");
-	tamagotchi = create_tamagotchi(conn, "Jean-Charles");
-	printf("INITIALIZED\n");
-	print_tamagotchi(tamagotchi);
 	printf("FETCH SAVE\n");
 	save = fetch_save(conn, 1);
 	printf("SAVE:\n");
 	printf("name: %s, food: %d, money: %d\n", save->name, save->food, save->money);
-	printf("GAMESTATE:\n");
-	gamestate = init_gamestate(save, tamagotchi, config);
-	printf("Health: %d, health kits: %d, food: %d, money: %d\n", gamestate->health, gamestate->health_kits, gamestate->money, gamestate->food);
-	parameters = init_parameters(tamagotchi, gamestate, config, NULL);
-  print_parameters(parameters);
+	parameters = init_parameters(save, NULL, NULL, config, conn, NULL);
 
 	do{
 		printf("Tapez 0 pour jouer en console ou 1 pour jouer en graphique : ");
@@ -49,7 +38,6 @@ int			main(int argc, char **argv) {
 
 
     printf("CALL HOME PAGE\n");
-    print_parameters(parameters);
 		homePage(&argc, &argv, parameters);
     gtk_main();
 	}
