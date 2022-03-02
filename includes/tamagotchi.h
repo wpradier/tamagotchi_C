@@ -10,8 +10,10 @@
 #include <json-c/json.h>
 #include <curl/curl.h>
 
-# define BUFF_SIZE 50
-# define QUERY_SIZE 300
+# define BUFF_SIZE 	50
+# define QUERY_SIZE 	400
+# define WASH_FREQUENCY	10
+# define FUN_FREQUENCY	10
 
 
 typedef unsigned char	mybool;
@@ -39,14 +41,17 @@ typedef struct	Save {
 typedef struct 	Tamagotchi {
 	char		*name;
 	char		*color;
+
 	time_t 	birthdate;
 	mybool		alive;
+	mybool		born;
 	time_t 	last_fed;
 	time_t 	last_washed;
 	time_t 	last_played;
 	time_t 	last_worked;
 	unsigned short	health_bar;
 	time_t 	last_health_update;
+
 	char		*outfit;
 } s_tamagotchi;
 
@@ -75,11 +80,13 @@ s_config			*load_conf(char *conf_path);
 void					print_conf(s_config *config);
 void					free_conf(s_config *config);
 
+
+s_tamagotchi	*create_tamagotchi(MYSQL *conn, char *name);
 s_tamagotchi	*init_tamagotchi(MYSQL *conn, int id_tamagotchi);
 void					print_tamagotchi(s_tamagotchi *tamagotchi);
 void					free_tamagotchi(s_tamagotchi *tamagotchi);
-s_gamestate		*init_gamestate(s_save *save, s_tamagotchi *tamagotchi);
-//void	db_connect();
+s_gamestate	*init_gamestate(s_save *save, s_tamagotchi *tamagotchi, s_config *config);
+int		update_gamestate(s_gamestate *gamestate, s_tamagotchi *tamagotchi, s_config *config);
 void  				gamePlayGraphic(s_parameters *);
 void 					shopPage(s_parameters *);
 s_parameters 	*init_parameters(s_tamagotchi *tamagotchi, s_gamestate *gamestate, s_config *, gpointer);
@@ -91,6 +98,7 @@ void 					get_weather();
 void 					alertPage(gchar *);
 void 					load_part(s_parameters *);
 void  				game_consol();
+
 
 
 #endif

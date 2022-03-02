@@ -4,6 +4,7 @@ CFLAGS=-Wall -Wextra -Werror
 
 INCLUDES = includes
 
+
 SRCS = srcs/main.c				\
        srcs/db_connect.c			\
        srcs/game_graphic.c			\
@@ -12,10 +13,12 @@ SRCS = srcs/main.c				\
        srcs/conf_funcs/load_conf.c		\
        srcs/conf_funcs/print_conf.c		\
        srcs/conf_funcs/free_conf.c		\
+			 srcs/tamagotchi_funcs/create_tamagotchi.c	\
        srcs/tamagotchi_funcs/init_tamagotchi.c	\
        srcs/tamagotchi_funcs/print_tamagotchi.c	\
        srcs/tamagotchi_funcs/free_tamagotchi.c	\
        srcs/gamestate_funcs/init_gamestate.c	\
+       srcs/gamestate_funcs/update_gamestate.c		\
 			 srcs/init_parameters.c	\
 			 srcs/home_page.c 			\
 			 srcs/name_graphic.c		\
@@ -26,6 +29,7 @@ SRCS = srcs/main.c				\
 			 srcs/alert_page.c			\
 			 srcs/loadPage.c				\
 			 srcs/game_consol.c			\
+
 
 OBJS = $(SRCS:.c=.o)
 

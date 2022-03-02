@@ -20,10 +20,9 @@ int			main(int argc, char **argv) {
 		return (EXIT_FAILURE);
 	}
 	print_conf(config);
-	//free_conf(config);
 
 	printf("INIT\n");
-	tamagotchi = init_tamagotchi(conn, 1);
+	tamagotchi = create_tamagotchi(conn, "Jean-Charles");
 	printf("INITIALIZED\n");
 	print_tamagotchi(tamagotchi);
 	printf("FETCH SAVE\n");
@@ -36,10 +35,6 @@ int			main(int argc, char **argv) {
 	printf("Health: %d, health kits: %d, food: %d, money: %d\n", gamestate->health, gamestate->health_kits, gamestate->money, gamestate->food);
 	parameters = init_parameters(tamagotchi, gamestate, config, NULL);
   print_parameters(parameters);
-
-	//free_tamagotchi(tamagotchi);
-
-	//mysql_close(conn);
 
 	do{
 		printf("Tapez 0 pour jouer en console ou 1 pour jouer en graphique : ");
