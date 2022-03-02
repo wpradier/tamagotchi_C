@@ -16,6 +16,7 @@ SRCS = srcs/main.c				\
 			 srcs/tamagotchi_funcs/create_tamagotchi.c	\
        srcs/tamagotchi_funcs/init_tamagotchi.c	\
        srcs/tamagotchi_funcs/print_tamagotchi.c	\
+       srcs/tamagotchi_funcs/save_tamagotchi.c	\
        srcs/tamagotchi_funcs/free_tamagotchi.c	\
        srcs/gamestate_funcs/init_gamestate.c	\
        srcs/gamestate_funcs/update_gamestate.c		\

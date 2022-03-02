@@ -46,6 +46,7 @@ s_tamagotchi		*init_tamagotchi(MYSQL *conn, int tamagotchi_id) {
 	mysql_free_result(res);
 
 	tamagotchi = (s_tamagotchi*)malloc(sizeof(s_tamagotchi) * 1);
+	tamagotchi->id = tamagotchi_id;
 	set_tamagotchi_fields(tamagotchi, row);
 
 	return (tamagotchi);

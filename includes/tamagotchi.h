@@ -85,6 +85,7 @@ void					free_conf(s_config *config);
 s_tamagotchi	*create_tamagotchi(MYSQL *conn, char *name);
 s_tamagotchi	*init_tamagotchi(MYSQL *conn, int id_tamagotchi);
 void					print_tamagotchi(s_tamagotchi *tamagotchi);
+int					save_tamagotchi(MYSQL *conn, s_tamagotchi *tamagotchi);
 void					free_tamagotchi(s_tamagotchi *tamagotchi);
 s_gamestate	*init_gamestate(s_save *save, s_tamagotchi *tamagotchi, s_config *config);
 int		update_gamestate(s_gamestate *gamestate, s_tamagotchi *tamagotchi, s_config *config);
