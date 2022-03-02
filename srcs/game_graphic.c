@@ -309,6 +309,9 @@ void         gameGraphic(s_parameters *parameters)
 	image_tamagotchi = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "tamagotchi_image"));
 
   food_bar = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "food_bar"));
+  // if (!parameters->config->display_hungerbar){
+  //   gtk_widget_hide(food_bar);
+  // }
   food_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "button_food"));
   changeImageState(food_button, (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)gtkBuilder));
   g_signal_connect(food_button, "clicked", G_CALLBACK(updateFood), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)food_bar));

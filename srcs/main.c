@@ -30,8 +30,7 @@ int			main(int argc, char **argv) {
 	printf("SAVE:\n");
 	printf("name: %s, food: %d, money: %d\n", save->name, save->food, save->money);
 	printf("GAMESTATE:\n");
-	gamestate = init_gamestate(save, tamagotchi);
-  gamestate->food = 2;
+	gamestate = init_gamestate(save, tamagotchi, config);
 	printf("Health: %d, health kits: %d, food: %d, money: %d\n", gamestate->health, gamestate->health_kits, gamestate->money, gamestate->food);
 	parameters = init_parameters(tamagotchi, gamestate, config, NULL);
   print_parameters(parameters);
@@ -53,9 +52,7 @@ int			main(int argc, char **argv) {
     print_parameters(parameters);
 		homePage(&argc, &argv, parameters);
     gtk_main();
-
 	}
-
 
 	return (EXIT_SUCCESS);
 }

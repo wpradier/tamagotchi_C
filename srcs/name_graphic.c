@@ -27,6 +27,7 @@ void             editName(GtkWidget *widget, gpointer data){
 
     free(parameters->tamagotchi->name);
     parameters->tamagotchi->name = ft_strnew(strlen((char *)recep_entry_text) + 1);
+    create_tamagotchi(conn,   parameters->tamagotchi->name);
   	strcpy(parameters->tamagotchi->name, (char *)recep_entry_text);
 
     parameters->data = NULL;
