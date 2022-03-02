@@ -49,13 +49,17 @@ int			main(int argc, char **argv) {
 
 	if (choice == 0){
 		printf("Vous êtes en version console\n");
+
+		game_consol();
 	}else{
 		printf("Vous êtes en version graphique\n");
+
 
     printf("CALL HOME PAGE\n");
     print_parameters(parameters);
 		homePage(&argc, &argv, parameters);
     gtk_main();
+
 	}
 
 

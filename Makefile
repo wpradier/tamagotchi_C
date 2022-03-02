@@ -4,6 +4,7 @@ CFLAGS=-Wall -Wextra -Werror
 
 INCLUDES = includes
 
+<<<<<<< HEAD
 
 SRCS = srcs/main.c				\
        srcs/db_connect.c			\
@@ -26,6 +27,8 @@ SRCS = srcs/main.c				\
 			 srcs/weather.c					\
 			 srcs/alert_page.c			\
 			 srcs/loadPage.c				\
+			 srcs/game_consol.c			\
+
 
 
 OBJS = $(SRCS:.c=.o)

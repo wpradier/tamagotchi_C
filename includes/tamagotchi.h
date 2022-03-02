@@ -10,6 +10,7 @@
 #include <json-c/json.h>
 #include <curl/curl.h>
 
+<<<<<<< HEAD
 
 # define BUFF_SIZE 50
 # define QUERY_SIZE 300
@@ -91,5 +92,7 @@ char 					*ft_strnew(size_t n);
 void 					get_weather();
 void 					alertPage(gchar *);
 void 					load_part(s_parameters *);
+void  				game_consol();
+
 
 #endif
