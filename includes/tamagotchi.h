@@ -39,18 +39,18 @@ typedef struct	Save {
 } s_save;
 
 typedef struct 	Tamagotchi {
+	int		id;
 	char		*name;
 	char		*color;
-
-	time_t 	birthdate;
+	time_t 		birthdate;
 	mybool		alive;
 	mybool		born;
-	time_t 	last_fed;
-	time_t 	last_washed;
-	time_t 	last_played;
-	time_t 	last_worked;
+	time_t 		last_fed;
+	time_t 		last_washed;
+	time_t 		last_played;
+	time_t 		last_worked;
 	unsigned short	health_bar;
-	time_t 	last_health_update;
+	time_t 		last_health_update;
 
 	char		*outfit;
 } s_tamagotchi;
@@ -67,9 +67,10 @@ typedef struct	GameState {
 
 typedef struct Parameters {
 	s_tamagotchi	*tamagotchi;
-	s_gamestate		*gamestate;
-	s_config 			*config;
-	gpointer			data;
+	s_gamestate	*gamestate;
+	s_config	*config;
+	MYSQL		*conn;
+	gpointer	data;
 } s_parameters;
 
 
