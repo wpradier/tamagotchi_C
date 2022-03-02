@@ -66,6 +66,7 @@ typedef struct	GameState {
 } s_gamestate;
 
 typedef struct Parameters {
+	s_save *save;
 	s_tamagotchi	*tamagotchi;
 	s_gamestate	*gamestate;
 	s_config	*config;
@@ -91,7 +92,7 @@ s_gamestate	*init_gamestate(s_save *save, s_tamagotchi *tamagotchi, s_config *co
 int		update_gamestate(s_gamestate *gamestate, s_tamagotchi *tamagotchi, s_config *config);
 void  				gamePlayGraphic(s_parameters *);
 void 					shopPage(s_parameters *);
-s_parameters 	*init_parameters(s_tamagotchi *tamagotchi, s_gamestate *gamestate, s_config *, gpointer);
+s_parameters 	*init_parameters(s_save *save, s_tamagotchi *tamagotchi, s_gamestate *gamestate, s_config *, MYSQL *conn, gpointer);
 void 					nameGraphic(s_parameters *);
 void        	gameGraphic(s_parameters *);
 void 					print_parameters(s_parameters *parameters);

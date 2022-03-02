@@ -13,7 +13,7 @@ void returnGameGraphic(GtkWidget *widget, gpointer data){
   gtk_widget_destroy(parameters->data);
   parameters->data = NULL;
 
-  gameGraphic(init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->data));
+  gameGraphic(init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, parameters->data));
 
   free(parameters);
 }
@@ -73,7 +73,7 @@ void              changeImage(GtkWidget *widget, gpointer data){
     gtk_image_set_from_file(GTK_IMAGE(image_case), file2);
 
     g_signal_connect(button, "clicked", G_CALLBACK(setImage), (gpointer) image_case);
-    g_signal_connect(button, "clicked", G_CALLBACK(changeImage), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->data));
+    g_signal_connect(button, "clicked", G_CALLBACK(changeImage), (gpointer) init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, parameters->data));
   } else if (count == count_game){
     g_print("\njeu fini !!!!");
     count = 0;
@@ -84,7 +84,7 @@ void              changeImage(GtkWidget *widget, gpointer data){
     window = GTK_WIDGET(gtk_builder_get_object(parameters->data, "game_window"));
 
     button_return = GTK_WIDGET(gtk_builder_get_object(parameters->data, "button_return"));
-    g_signal_connect(button_return, "clicked", G_CALLBACK(returnGameGraphic), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)window));
+    g_signal_connect(button_return, "clicked", G_CALLBACK(returnGameGraphic), (gpointer) init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, (gpointer)window));
   }
   //free(parameters);
 }
@@ -119,7 +119,7 @@ void          gamePlayGraphic(s_parameters *parameters){
   free(id);
   free(idtest);
 
-  changeImage(button, (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)gtkBuilder));
+  changeImage(button, (gpointer) init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, (gpointer)gtkBuilder));
 
   gtk_widget_show_all(window);
 
