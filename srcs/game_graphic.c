@@ -225,7 +225,7 @@ void            changeImageState(GtkWidget *widget, gpointer data){
   value_hygiene = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(hygiene_bar));
 
   if (parameters->tamagotchi->color != red && parameters->tamagotchi->color != purple){
-    image_file = "imgs/oeuf(1).png";
+    image_file = "imgs/egg.png";
   }else{
     if (value_food > 0.5){
       if ( parameters->tamagotchi->color == red ){
