@@ -33,7 +33,6 @@ int			main(int argc, char **argv) {
 	printf("GAMESTATE:\n");
 	gamestate = init_gamestate(save, tamagotchi);
   gamestate->food = 2;
-  tamagotchi->color = "undefined";
 	printf("Health: %d, health kits: %d, food: %d, money: %d\n", gamestate->health, gamestate->health_kits, gamestate->money, gamestate->food);
 	parameters = init_parameters(tamagotchi, gamestate, config, NULL);
   print_parameters(parameters);
@@ -50,7 +49,7 @@ int			main(int argc, char **argv) {
 	if (choice == 0){
 		printf("Vous êtes en version console\n");
 
-		game_consol();
+		game_consol(parameters);
 	}else{
 		printf("Vous êtes en version graphique\n");
 

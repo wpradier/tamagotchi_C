@@ -7,6 +7,7 @@ void        updateHygiene(GtkWidget *, gpointer);
 void        gamePlay(GtkWidget *, gpointer);
 void        goToWork(GtkWidget *, gpointer);
 void        changeImageState(GtkWidget *, gpointer);
+void        updateBored(GtkWidget *, gpointer);
 
 void            marketButton(GtkWidget *widget, gpointer data){
   s_parameters  *parameters;
@@ -35,29 +36,12 @@ void              updateFood(GtkWidget *widget, gpointer data){
 
       parameters->gamestate->food -= 1;
 
-      /* time */
-      /* read time */
-       time_t now = time (NULL);
+     time_t now = time (NULL);
 
-       /* convert in localtime */
-       struct tm tm_now = *localtime (&now);
-
-       /* create char JJ/MM/AAAA HH:MM:SS */
-       char s_now[sizeof "JJ/MM/AAAA HH:MM:SS"];
-
-       strftime (s_now, sizeof s_now, "%d/%m/%Y %H:%M:%S", &tm_now);
-
-       /* print result : */
-       g_print("'%s'\n", s_now);
-
-        parameters->tamagotchi->last_fed = s_now;
-     }else{
-       alertPage("Achetez de la nourriture !");
-     }
-
-      //free(parameters);
-
-     // pour comparer deux dates : difftime()
+      parameters->tamagotchi->last_fed = now;
+   }else{
+     alertPage("Achetez de la nourriture !");
+   }
 }
 
 void              updateHealth(GtkWidget *widget, gpointer data){
@@ -74,29 +58,11 @@ void              updateHealth(GtkWidget *widget, gpointer data){
 
       parameters->gamestate->health_kits -= 1;
 
-      /* time */
-      /* read time */
        time_t now = time (NULL);
-
-       /* convert in localtime */
-       struct tm tm_now = *localtime (&now);
-
-       /* create char JJ/MM/AAAA HH:MM:SS */
-       char s_now[sizeof "JJ/MM/AAAA HH:MM:SS"];
-
-       strftime (s_now, sizeof s_now, "%d/%m/%Y %H:%M:%S", &tm_now);
-
-       /* print result : */
-       g_print("'%s'\n", s_now);
-
-       parameters->tamagotchi->last_health_update = s_now;
+       parameters->tamagotchi->last_health_update = now;
      }else{
        alertPage("Achetez des kits de soin !");
      }
-
-     //free(parameters);
-
-     // pour comparer deux dates : difftime()
 }
 
 void              updateHygiene(GtkWidget *widget, gpointer data){
@@ -109,27 +75,26 @@ void              updateHygiene(GtkWidget *widget, gpointer data){
     value += 0.25;
     gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(parameters->data), value);
 
-    /* time */
-    /* read time */
-     time_t now = time (NULL);
+   time_t now = time (NULL);
 
-     /* convert in localtime */
-     struct tm tm_now = *localtime (&now);
+   parameters->tamagotchi->last_washed = now;
+   parameters->data = NULL;
+}
 
-     /* create char JJ/MM/AAAA HH:MM:SS */
-     char s_now[sizeof "JJ/MM/AAAA HH:MM:SS"];
+void              updateBored(GtkWidget *widget, gpointer data){
+    s_parameters  *parameters;
 
-     strftime (s_now, sizeof s_now, "%d/%m/%Y %H:%M:%S", &tm_now);
+    parameters = (s_parameters *)data;
 
-     /* print result : */
-     g_print("'%s'\n", s_now);
+    if (widget) g_print("Modification progresse barre\n");
+    double value = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(parameters->data));
+    value += 0.25;
+    gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(parameters->data), value);
 
-     parameters->tamagotchi->last_washed = s_now;
-     parameters->data = NULL;
+   time_t now = time (NULL);
 
-     //free(parameters);
-
-     // pour comparer deux dates : difftime()
+   parameters->tamagotchi->last_played = now;
+   parameters->data = NULL;
 }
 
 void              goToWork(GtkWidget *widget, gpointer data){
@@ -142,27 +107,12 @@ void              goToWork(GtkWidget *widget, gpointer data){
     char *file = "imgs/calqueWork.png";
     gtk_image_set_from_file(GTK_IMAGE(parameters->data), file);
 
-    /* time */
-    /* read time */
-     time_t now = time (NULL);
+   time_t now = time (NULL);
 
-     /* convert in localtime */
-     struct tm tm_now = *localtime (&now);
+   parameters->tamagotchi->last_worked = now;
+   parameters->data = NULL;
 
-     /* create char JJ/MM/AAAA HH:MM:SS */
-     char s_now[sizeof "JJ/MM/AAAA HH:MM:SS"];
-
-     strftime (s_now, sizeof s_now, "%d/%m/%Y %H:%M:%S", &tm_now);
-
-     /* print result : */
-     g_print("'%s'\n", s_now);
-
-     parameters->tamagotchi->last_worked = s_now;
-     parameters->data = NULL;
-
-     free(parameters);
-
-     // pour comparer deux dates : difftime()
+   free(parameters);
 }
 
 void            gamePlay(GtkWidget *widget, gpointer data){
@@ -182,23 +132,18 @@ void            gamePlay(GtkWidget *widget, gpointer data){
 void            changeTamagotchi(GtkWidget *widget, gpointer data){
   static int    count = 1;
   s_parameters  *parameters;
-  int           random;
 
   parameters = (s_parameters *)data;
 
   if (widget) g_print("NAISSANCE DU TAMAGO\n");
 
-  if (count == 1){
-    srand( time( NULL ) );
-    random = rand() % 3 + 1;
-    if (random == 1){
-      parameters->tamagotchi->color = "red";
-    }else{
-      parameters->tamagotchi->color = "purple";
-    }
-  }else{
-    count += 1;
-  }
+   if (count == 1 && parameters->tamagotchi->born == 0){
+     time_t now = time (NULL);
+     parameters->tamagotchi->birthdate = now;
+     parameters->tamagotchi->born = 1;
+   }else{
+     count += 1;
+   }
 
   free(parameters);
 }
@@ -210,8 +155,6 @@ void            changeImageState(GtkWidget *widget, gpointer data){
   double        value_food;
   double        value_hygiene;
   s_parameters  *parameters;
-  char          *red = "red";
-  char          *purple = "purple";
   char          *image_file;
 
   if (widget) g_print("Change image food\n");
@@ -224,27 +167,99 @@ void            changeImageState(GtkWidget *widget, gpointer data){
   value_food = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(food_bar));
   value_hygiene = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(hygiene_bar));
 
-  if (parameters->tamagotchi->color != red && parameters->tamagotchi->color != purple){
+  if (parameters->tamagotchi->born != 1){
     image_file = "imgs/egg.png";
   }else{
     if (value_food > 0.5){
-      if ( parameters->tamagotchi->color == red ){
-        image_file = "imgs/tamagotchiRedChild/tamagotchiRedHungerChild.png";
+      if ((parameters->tamagotchi->birthdate - time(NULL)) > parameters->config->grow_time){
+        if ( !strcmp(parameters->tamagotchi->color, "red")){
+          if (!strcmp(parameters->tamagotchi->outfit, "none")){
+            image_file = "imgs/tamagotchiRed/tamagotchiRedHunger0.png";
+          }else{
+            if (!strcmp(parameters->tamagotchi->outfit, "tee-shirt")){
+              image_file = "imgs/tamagotchiRed/tamagotchiRedHunger1.png";
+            }else{
+              if (!strcmp(parameters->tamagotchi->outfit, "accessories")){
+                image_file = "imgs/tamagotchiRed/tamagotchiRedHunger2.png";
+              }else{
+                image_file = "imgs/tamagotchiRed/tamagotchiRedHunger3.png";
+              }
+            }
+          }
+        }else{
+          if (!strcmp(parameters->tamagotchi->outfit, "none")){
+            image_file = "imgs/tamagotchiPurple/tamagotchiPurpleHunger0.png";
+          }else{
+            if (!strcmp(parameters->tamagotchi->outfit, "tee-shirt")){
+              image_file = "imgs/tamagotchiPurple/tamagotchiPurpleHunger1.png";
+            }else{
+              if (!strcmp(parameters->tamagotchi->outfit, "accessories")){
+                image_file = "imgs/tamagotchiPurple/tamagotchiPurpleHunger2.png";
+              }else{
+                image_file = "imgs/tamagotchiPurple/tamagotchiPurpleHunger3.png";
+              }
+            }
+          }
+        }
       }else{
-        image_file = "imgs/tamagotchiPurpleChild/tamagotchiPurpleHungerChild.png";
+        if ( !strcmp(parameters->tamagotchi->color, "red")){
+          image_file = "imgs/tamagotchiRedChild/tamagotchiRedHungerChild.png";
+        }else{
+          image_file = "imgs/tamagotchiPurpleChild/tamagotchiPurpleHungerChild.png";
+        }
       }
     }else{
       if (value_hygiene < 0.5){
-        if ( parameters->tamagotchi->color == red ){
-          image_file = "imgs/tamagotchiRedChild/tamagotchiRedDirtyChild.png";
+        if ((parameters->tamagotchi->birthdate - time(NULL)) > parameters->config->grow_time){
+          if ( !strcmp(parameters->tamagotchi->color, "red")){
+            if (!strcmp(parameters->tamagotchi->outfit, "none")){
+              image_file = "imgs/tamagotchiRed/tamagotchiRedDirty0.png";
+            }else{
+              if (!strcmp(parameters->tamagotchi->outfit, "tee-shirt")){
+                image_file = "imgs/tamagotchiRed/tamagotchiRedDirty1.png";
+              }else{
+                if (!strcmp(parameters->tamagotchi->outfit, "accessories")){
+                  image_file = "imgs/tamagotchiRed/tamagotchiRedDirty2.png";
+                }else{
+                  image_file = "imgs/tamagotchiRed/tamagotchiRedDirty3.png";
+                }
+              }
+            }
+          }else{
+            if (!strcmp(parameters->tamagotchi->outfit, "none")){
+              image_file = "imgs/tamagotchiPurple/tamagotchiPurpleDirty0.png";
+            }else{
+              if (!strcmp(parameters->tamagotchi->outfit, "tee-shirt")){
+                image_file = "imgs/tamagotchiPurple/tamagotchiPurpleDirty1.png";
+              }else{
+                if (!strcmp(parameters->tamagotchi->outfit, "accessories")){
+                  image_file = "imgs/tamagotchiPurple/tamagotchiPurpleDirty2.png";
+                }else{
+                  image_file = "imgs/tamagotchiPurple/tamagotchiPurpleDirty3.png";
+                }
+              }
+            }
+          }
         }else{
-          image_file = "imgs/tamagotchiPurpleChild/tamagotchiPurpleDirtyChild.png";
+          if ( !strcmp(parameters->tamagotchi->color, "red") ){
+            image_file = "imgs/tamagotchiRedChild/tamagotchiRedDirtyChild.png";
+          }else{
+            image_file = "imgs/tamagotchiPurpleChild/tamagotchiPurpleDirtyChild.png";
+          }
         }
       }else{
-        if ( parameters->tamagotchi->color == red ){
-          image_file = "imgs/tamagotchiRedChild/tamagotchiRedChild.png";
+        if ((parameters->tamagotchi->birthdate - time(NULL)) > parameters->config->grow_time){
+          if ( !strcmp(parameters->tamagotchi->color, "red") ){
+            image_file = "imgs/tamagotchiRed/tamagotchiRed0.png";
+          }else{
+            image_file = "imgs/tamagotchiPurple/tamagotchiPurple0.png";
+          }
         }else{
-          image_file = "imgs/tamagotchiPurpleChild/tamagotchiPurpleChild.png";
+          if ( !strcmp(parameters->tamagotchi->color, "red") ){
+            image_file = "imgs/tamagotchiRedChild/tamagotchiRedChild.png";
+          }else{
+            image_file = "imgs/tamagotchiPurpleChild/tamagotchiPurpleChild.png";
+          }
         }
       }
     }
@@ -257,7 +272,6 @@ void            changeImageState(GtkWidget *widget, gpointer data){
 
 void         gameGraphic(s_parameters *parameters)
 {
-	//init variable
 	GtkBuilder *gtkBuilder;
 	GtkWidget  *window;
 	GtkWidget  *market_button;
@@ -270,6 +284,7 @@ void         gameGraphic(s_parameters *parameters)
   GtkWidget  *hygiene_bar;
   GtkWidget  *hygiene_button;
   GtkWidget  *work_button;
+  GtkWidget  *bored_bar;
   GtkWidget  *name_label;
   GtkWidget  *image_background;
 
@@ -310,10 +325,13 @@ void         gameGraphic(s_parameters *parameters)
 
   work_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "button_work"));
   g_signal_connect(work_button, "clicked", G_CALLBACK(goToWork), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)image_tamagotchi));
+  //g_timeout_add_seconds(parameters->config->work_duration, finishWork, (gpointer)init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)image_tamagotchi));
 
+  bored_bar = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "bored_bar"));
   game_button = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "game_button"));
   g_signal_connect(game_button, "clicked", G_CALLBACK(changeTamagotchi), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)image_tamagotchi));
   g_signal_connect(game_button, "clicked", G_CALLBACK(gamePlay), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)window));
+  g_signal_connect(game_button, "clicked", G_CALLBACK(updateBored), (gpointer) init_parameters(parameters->tamagotchi, parameters->gamestate, parameters->config, (gpointer)bored_bar));
 
   free(parameters);
 

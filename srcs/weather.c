@@ -32,20 +32,19 @@ void get_weather(gpointer image){
   json = json_tokener_parse(result);
   json_object_object_get_ex(json, "weather", &sys);
   json_object_object_get_ex(json_object_array_get_idx(sys, 0), "main", &weather);
-  //printf("%s", (const gchar* ) json_object_get_string(weather));
 
   const gchar *string_weather = json_object_get_string(weather);
   if (!strcmp(string_weather, "Clear")){
     printf("ok");
-    file = "imgs/fond/sun.png";
+    file = "imgs/weather/sun.png";
   }else{
     if (!strcmp(string_weather, "Rain")){
-      file = "imgs/fond/rain.png";
+      file = "imgs/weather/rain.png";
     }else{
       if (!strcmp(string_weather, "Snow")){
-        file = "imgs/fond/snow.png";
+        file = "imgs/weather/snow.png";
       }else{
-        file = "imgs/fond/cloud.png";
+        file = "imgs/weather/cloud.png";
       }
     }
   }

@@ -10,8 +10,6 @@
 #include <json-c/json.h>
 #include <curl/curl.h>
 
-<<<<<<< HEAD
-
 # define BUFF_SIZE 50
 # define QUERY_SIZE 300
 
@@ -41,14 +39,14 @@ typedef struct	Save {
 typedef struct 	Tamagotchi {
 	char		*name;
 	char		*color;
-	char		*birthdate;
+	time_t 	birthdate;
 	mybool		alive;
-	char		*last_fed;
-	char		*last_washed;
-	char		*last_played;
-	char		*last_worked;
+	time_t 	last_fed;
+	time_t 	last_washed;
+	time_t 	last_played;
+	time_t 	last_worked;
 	unsigned short	health_bar;
-	char		*last_health_update;
+	time_t 	last_health_update;
 	char		*outfit;
 } s_tamagotchi;
 

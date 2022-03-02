@@ -5,20 +5,14 @@ void			set_tamagotchi_fields(s_tamagotchi *tamagotchi, MYSQL_ROW row) {
 	strcpy(tamagotchi->name, row[0]);
 	tamagotchi->color = ft_strnew(strlen(row[1]) + 1);
 	strcpy(tamagotchi->color, row[1]);
-	tamagotchi->birthdate = ft_strnew(strlen(row[2]) + 1);
-	strcpy(tamagotchi->birthdate, row[2]);
+	tamagotchi->birthdate = atoi(row[2]);
 	tamagotchi->alive = atoi(row[3]);
-	tamagotchi->last_fed = ft_strnew(strlen(row[4]) + 1);
-	strcpy(tamagotchi->last_fed, row[4]);
-	tamagotchi->last_washed = ft_strnew(strlen(row[5]) + 1);
-	strcpy(tamagotchi->last_washed, row[5]);
-	tamagotchi->last_played = ft_strnew(strlen(row[6]) + 1);
-	strcpy(tamagotchi->last_played, row[6]);
-	tamagotchi->last_worked = ft_strnew(strlen(row[7]) + 1);
-	strcpy(tamagotchi->last_worked, row[7]);
+	tamagotchi->last_fed = atoi(row[4]);
+	tamagotchi->last_washed = atoi(row[5]);
+	tamagotchi->last_played = atoi(row[6]);
+	tamagotchi->last_worked = atoi(row[7]);
 	tamagotchi->health_bar = atoi(row[8]);
-	tamagotchi->last_health_update = ft_strnew(strlen(row[9]) + 1);
-	strcpy(tamagotchi->last_health_update, row[9]);
+	tamagotchi->last_health_update = atoi(row[9]);
 	tamagotchi->outfit = ft_strnew(strlen(row[10]) + 1);
 	strcpy(tamagotchi->outfit, row[10]);
 }

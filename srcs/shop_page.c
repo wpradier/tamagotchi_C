@@ -97,10 +97,10 @@ void          shopPage(s_parameters *parameters){
   GtkWidget   *tamacash_label;
   GtkWidget   *label_food;
   GtkWidget   *label_health;
-  GtkWidget   *init_tamagotchi;
-  GtkWidget   *basic_tamagotchi;
-  GtkWidget   *girl_tamagotchi;
-  GtkWidget   *hero_tamagotchi;
+  GtkWidget   *none_tamagotchi;
+  GtkWidget   *teeshirt_tamagotchi;
+  GtkWidget   *accessories_tamagotchi;
+  GtkWidget   *cape_tamagotchi;
   GtkWidget   *button_buy_food;
   GtkWidget   *button_buy_health;
   char        *display_money;
@@ -133,22 +133,21 @@ void          shopPage(s_parameters *parameters){
 
   free(display_health);
 
-  init_tamagotchi = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "init_tamagotchi"));
-  basic_tamagotchi = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "basic_tamagotchi"));
-  girl_tamagotchi = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "girl_tamagotchi"));
-  hero_tamagotchi = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "hero_tamagotchi"));
+  none_tamagotchi = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "none_tamagotchi"));
+  teeshirt_tamagotchi = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "tee-shirt_tamagotchi"));
+  accessories_tamagotchi = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "accessories_tamagotchi"));
+  cape_tamagotchi = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "cape_tamagotchi"));
 
   if (!strcmp(parameters->tamagotchi->color, "purple")){
-    printf("ok");
-    gtk_image_set_from_file(GTK_IMAGE(init_tamagotchi), "imgs/tamagotchiPurple/tamagotchiPurple0.png");
-    gtk_image_set_from_file(GTK_IMAGE(basic_tamagotchi), "imgs/tamagotchiPurple/tamagotchiPurple1.png");
-    gtk_image_set_from_file(GTK_IMAGE(girl_tamagotchi), "imgs/tamagotchiPurple/tamagotchiPurple2.png");
-    gtk_image_set_from_file(GTK_IMAGE(hero_tamagotchi), "imgs/tamagotchiPurple/tamagotchiPurple3.png");
+    gtk_image_set_from_file(GTK_IMAGE(none_tamagotchi), "imgs/tamagotchiPurple/tamagotchiPurple0.png");
+    gtk_image_set_from_file(GTK_IMAGE(teeshirt_tamagotchi), "imgs/tamagotchiPurple/tamagotchiPurple1.png");
+    gtk_image_set_from_file(GTK_IMAGE(accessories_tamagotchi), "imgs/tamagotchiPurple/tamagotchiPurple2.png");
+    gtk_image_set_from_file(GTK_IMAGE(cape_tamagotchi), "imgs/tamagotchiPurple/tamagotchiPurple3.png");
   }else{
-    gtk_image_set_from_file(GTK_IMAGE(init_tamagotchi), "imgs/tamagotchiRed/tamagotchiRed0.png");
-    gtk_image_set_from_file(GTK_IMAGE(basic_tamagotchi), "imgs/tamagotchiRed/tamagotchiRed1.png");
-    gtk_image_set_from_file(GTK_IMAGE(girl_tamagotchi), "imgs/tamagotchiRed/tamagotchiRed2.png");
-    gtk_image_set_from_file(GTK_IMAGE(hero_tamagotchi), "imgs/tamagotchiRed/tamagotchiRed3.png");
+    gtk_image_set_from_file(GTK_IMAGE(none_tamagotchi), "imgs/tamagotchiRed/tamagotchiRed0.png");
+    gtk_image_set_from_file(GTK_IMAGE(teeshirt_tamagotchi), "imgs/tamagotchiRed/tamagotchiRed1.png");
+    gtk_image_set_from_file(GTK_IMAGE(accessories_tamagotchi), "imgs/tamagotchiRed/tamagotchiRed2.png");
+    gtk_image_set_from_file(GTK_IMAGE(cape_tamagotchi), "imgs/tamagotchiRed/tamagotchiRed3.png");
   }
 
   button_buy_food = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "button_buy_food"));
