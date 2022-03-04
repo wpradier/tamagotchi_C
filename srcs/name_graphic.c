@@ -24,7 +24,6 @@ void             editName(GtkWidget *widget, gpointer data){
     if (widget) g_print("Modification progresse barre\n");
 
     const gchar *recep_entry_text = gtk_entry_get_text(GTK_ENTRY(parameters->data));
-    g_print("%s", recep_entry_text);
 
     name = ft_strnew(strlen((char *)recep_entry_text) + 1);
     strcpy(name, (char *)recep_entry_text);

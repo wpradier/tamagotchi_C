@@ -81,8 +81,6 @@ s_save				*fetch_save(MYSQL *conn, int save_id);
 s_config			*load_conf(char *conf_path);
 void					print_conf(s_config *config);
 void					free_conf(s_config *config);
-
-
 s_tamagotchi	*create_tamagotchi(MYSQL *conn, char *name);
 s_tamagotchi	*init_tamagotchi(MYSQL *conn, int id_tamagotchi);
 void					print_tamagotchi(s_tamagotchi *tamagotchi);

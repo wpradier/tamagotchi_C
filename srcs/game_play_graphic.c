@@ -27,7 +27,6 @@ void    setImage(GtkWidget *widget, gpointer data){
 }
 
 void              changeImage(GtkWidget *widget, gpointer data){
-   g_print("---access FUNCTION---\n");
    s_parameters   *parameters;
    int            random;
    gpointer       test;
@@ -50,7 +49,6 @@ void              changeImage(GtkWidget *widget, gpointer data){
    printf("---COUNT---: %d\n", count);
 
    if (count < count_game){
-    g_print("---access IF---\n");
     id2 = ft_strnew(3);
     idtest2 = ft_strnew(6);
     count += 1;
@@ -60,10 +58,8 @@ void              changeImage(GtkWidget *widget, gpointer data){
 
     sprintf(id2, "%d", random);
     sprintf(idtest2, "%d %d", random, random);
-    g_print("---access parameters---\n");
     test = parameters->data;
     parameters->data = test;
-    g_print("---end access parameters---\n");
     image_case = GTK_WIDGET(gtk_builder_get_object(parameters->data, id2));
     button = GTK_WIDGET(gtk_builder_get_object(parameters->data, idtest2));
 
@@ -75,7 +71,6 @@ void              changeImage(GtkWidget *widget, gpointer data){
     g_signal_connect(button, "clicked", G_CALLBACK(setImage), (gpointer) image_case);
     g_signal_connect(button, "clicked", G_CALLBACK(changeImage), (gpointer) init_parameters(parameters->save, parameters->tamagotchi, parameters->gamestate, parameters->config, parameters->conn, parameters->data));
   } else if (count == count_game){
-    g_print("\njeu fini !!!!");
     count = 0;
     parameters->gamestate->money += 25;
     container_end = GTK_WIDGET(gtk_builder_get_object(parameters->data, "container_end"));

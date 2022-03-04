@@ -168,15 +168,12 @@ void            changeImageState(GtkWidget *widget, gpointer data){
 
   parameters = (s_parameters *)data;
 
-  printf("TEST1\n");
-
   image_tamagotchi = GTK_WIDGET(gtk_builder_get_object(parameters->data, "tamagotchi_image"));
   food_bar = GTK_WIDGET(gtk_builder_get_object(parameters->data, "food_bar"));
   hygiene_bar = GTK_WIDGET(gtk_builder_get_object(parameters->data, "hygiene_bar"));
   value_food = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(food_bar));
   value_hygiene = gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(hygiene_bar));
 
-  printf("TEST2\n");
   if (parameters->tamagotchi->born != 1){
     image_file = "imgs/egg.png";
   }else{
@@ -275,8 +272,6 @@ void            changeImageState(GtkWidget *widget, gpointer data){
     }
   }
 
-  printf("TEST3\n");
-
   gtk_image_set_from_file(GTK_IMAGE(image_tamagotchi), image_file);
 
   //free(parameters);
@@ -319,7 +314,6 @@ void         gameGraphic(s_parameters *parameters)
 	window = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "main_window"));
 	gtk_builder_connect_signals(gtkBuilder, NULL);
 
-  g_print("NOM : %s\n", parameters->tamagotchi->name);
   print_parameters(parameters);
 
   image_background = GTK_WIDGET(gtk_builder_get_object(gtkBuilder, "image_background"));
