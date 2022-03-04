@@ -7,7 +7,7 @@ int			save_tamagotchi(MYSQL *conn, s_tamagotchi *tamagotchi) {
 
 	if (!strcmp(tamagotchi->outfit, "tee-shirt")) {
 		outfit = 2;
-	} else if (!strcmp(tamagotchi->outfit, "accessories")){
+	} else if (!strcmp(tamagotchi->outfit, "accessories")) {
 		outfit = 3;
 	} else if (!strcmp(tamagotchi->outfit, "cape")) {
 		outfit = 4;
