@@ -1,7 +1,7 @@
 #include "tamagotchi.h"
 
 int			save_tamagotchi(MYSQL *conn, s_tamagotchi *tamagotchi) {
-	MYSQL_RES	*res;
+	// MYSQL_RES	*res;
 	char		query[QUERY_SIZE];
 	int		outfit;
 
